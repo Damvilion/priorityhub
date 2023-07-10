@@ -9,11 +9,8 @@ import { setUser } from '@/app/redux/user';
 
 const Register = () => {
     const router = useRouter();
-    const { currentUser } = useSelector((state: RootState) => state.user);
     const [signUpEmail, setSignUpEmail] = useState('');
     const [password, setPassword] = useState('');
-    const dispatch = useDispatch();
-
     const handleSubmit: FormEventHandler<HTMLFormElement> = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
