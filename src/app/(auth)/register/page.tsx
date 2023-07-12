@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/redux/store';
 import { useRouter } from 'next/navigation';
 import { setUser } from '@/app/redux/user';
+import Link from 'next/link';
 
 const Register = () => {
     const router = useRouter();
@@ -42,7 +43,14 @@ const Register = () => {
                             setPassword(e.target.value);
                         }}
                         className='text-black p-2'></input>
-                    <p>forgot your password?</p>
+
+                    <div className='font-light text-xs'>
+                        Already have an account?{' '}
+                        <Link className='inline-block' href='/login'>
+                            <p>login</p>
+                        </Link>
+                    </div>
+
                     <button type='submit' className='bg-gradient-to-r from-blue-500 to-purple-400 p-2 rounded-sm'>
                         register
                     </button>

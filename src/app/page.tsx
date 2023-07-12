@@ -6,6 +6,8 @@ import { auth } from '../../firebase-config';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { setUser } from './redux/user';
 import { useEffect } from 'react';
+import Link from 'next/link';
+import Navbar from './components/Navbar';
 
 export default function Home() {
     const { currentUser } = useSelector((state: RootState) => state.user);
@@ -29,17 +31,20 @@ export default function Home() {
     }, []);
 
     return (
-        <main className='h-screen flex flex-col justify-center items-center'>
-            <h1>Main</h1>
-            <button onClick={() => router.push('/register')}>Register</button>
-            <button
-                onClick={() => {
-                    signOut(auth);
-                    dispatch(setUser(null));
-                }}>
-                Sign out
-            </button>
-            <button onClick={() => console.log(currentUser)}>Log user </button>
+        <main className='bg-white'>
+            <Navbar />
+            <div className='h-screen flex flex-col justify-center items-center'>
+                <h1>Main</h1>
+                <button onClick={() => router.push('/register')}>Register</button>
+                <button
+                    onClick={() => {
+                        signOut(auth);
+                        dispatch(setUser(null));
+                    }}>
+                    Sign out
+                </button>
+                <button onClick={() => console.log(currentUser)}>Log user </button>
+            </div>
         </main>
     );
 }

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/redux/store';
 import { useRouter } from 'next/navigation';
 import { setUser } from '@/app/redux/user';
+import Link from 'next/link';
 
 const Login = () => {
     const router = useRouter();
@@ -53,6 +54,12 @@ const Login = () => {
                     <button type='submit' className='bg-gradient-to-r from-blue-500 to-purple-400 p-2 rounded-sm'>
                         login
                     </button>
+                    <div className='mx-auto text-xs'>
+                        New?{' '}
+                        <Link className='text-blue-400' href='/register'>
+                            register
+                        </Link>
+                    </div>
                 </form>
             </div>
         </main>
