@@ -30,6 +30,7 @@ const Login = () => {
             console.log(error);
         }
     };
+
     return (
         <main className='h-screen bg-[#121212] flex justify-center items-center'>
             <div>

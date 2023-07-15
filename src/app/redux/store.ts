@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import currentUser from './user';
+import board from './boardState';
 
 export const store = configureStore({
     reducer: {
         user: currentUser,
+        board: board,
     },
 });
 
