@@ -9,7 +9,7 @@ import Column from './Column';
 
 function Board() {
     const { board } = useSelector((state: RootState) => state.board);
-    const [renderBoard, setRenderBoard] = useState([]);
+    const [renderBoard, setRenderBoard] = useState([1, 2, 3]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -23,7 +23,7 @@ function Board() {
     const handleDrag = () => {};
 
     return (
-        <div>
+        <div className='flex justify-center'>
             {/* <button onClick={getData} className='bg-red-500'>
                 Get data
             </button> */}
@@ -31,7 +31,7 @@ function Board() {
             <DragDropContext onDragEnd={handleDrag}>
                 <Droppable droppableId='board' direction='horizontal' type='column'>
                     {(provided) => (
-                        <div className={`grid grid-cols-${renderBoard.length}`} ref={provided.innerRef} {...provided.droppableProps}>
+                        <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
                             {renderBoard.map((item: any, index) => (
                                 <Column key={item.id} index={index} id={item.id} text={item.status} />
                             ))}
