@@ -7,8 +7,12 @@ export const getDataByColumn = async () => {
 
     if (docSnap.exists()) {
         const todos = docSnap.data();
-        const value = JSON.stringify(todos);
-        console.log(value);
-        return value;
+        // const board = todos['todo'].map((item) => {
+        //     return item;
+        // });
+        // console.log(board);
+        // return board;
+        return todos['todo'];
+        // return 'hello';
     }
 };
