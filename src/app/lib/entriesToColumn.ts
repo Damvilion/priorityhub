@@ -15,6 +15,7 @@ export const entriesToColumn = async () => {
         console.log(todos.entries);
         const obj = todos.entries;
         const keys = Object.keys(obj);
+        console.log(keys);
 
         return todos['entries'];
         // return 'hello';
