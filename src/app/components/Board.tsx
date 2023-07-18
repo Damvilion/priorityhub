@@ -23,7 +23,7 @@ function Board() {
     const handleDrag = () => {};
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex border-solid border-black border overflow-scroll'>
             {/* <button onClick={getData} className='bg-red-500'>
                 Get data
             </button> */}
@@ -33,7 +33,7 @@ function Board() {
                     {(provided) => (
                         <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
                             {renderBoard.map((item: any, index) => (
-                                <Column key={item.id} index={index} id={item.id} text={item.status} />
+                                <Column key={item.id} index={index} id={item.id} text={item.status} renderBoard={renderBoard} />
                             ))}
                             {provided.placeholder}
                         </div>
