@@ -6,24 +6,32 @@ import { useDispatch } from 'react-redux';
 import { getBoard } from '../redux/boardState';
 import { getDataByColumn } from '../lib/getDataByColumn';
 import Column from './Column';
+import { entriesToColumn } from '../lib/entriesToColumn';
 
 function Board() {
     const { board } = useSelector((state: RootState) => state.board);
     const [renderBoard, setRenderBoard] = useState([1, 2, 3]);
     const dispatch = useDispatch();
+    const [entries, setEntries] = useState({});
 
     useEffect(() => {
         const getColumn = async () => {
             const data = await getDataByColumn();
             setRenderBoard(data);
         };
+
+        const getEntries = async () => {
+            const data = await entriesToColumn();
+            setEntries(data);
+        };
         getColumn();
+        getEntries();
     }, []);
 
     const handleDrag = () => {};
 
     return (
-        <div className='flex border-solid border-black border overflow-scroll'>
+        <div className='flex overflow-scroll'>
             {/* <button onClick={getData} className='bg-red-500'>
                 Get data
             </button> */}
@@ -32,8 +40,8 @@ function Board() {
                 <Droppable droppableId='board' direction='horizontal' type='column'>
                     {(provided) => (
                         <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
-                            {renderBoard.map((item: any, index) => (
-                                <Column key={item.id} index={index} id={item.id} text={item.status} renderBoard={renderBoard} />
+                            {Object.keys(entries).map((item, index) => (
+                                <Column key={index} index={index} name={item} content={entries[`${item}`]['content']} />
                             ))}
                             {provided.placeholder}
                         </div>
