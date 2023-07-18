@@ -12,36 +12,39 @@ function Board() {
     const { board } = useSelector((state: RootState) => state.board);
     const [renderBoard, setRenderBoard] = useState([1, 2, 3]);
     const dispatch = useDispatch();
-    const [entries, setEntries] = useState({});
+    const [entries, setEntries] = useState<any>({});
 
     useEffect(() => {
-        const getColumn = async () => {
-            const data = await getDataByColumn();
-            setRenderBoard(data);
-        };
-
         const getEntries = async () => {
             const data = await entriesToColumn();
             setEntries(data);
         };
-        getColumn();
+
         getEntries();
     }, []);
+
+    // interface Entries {
+    //     done?: {};
+    //     inprogress?: {};
+    //     todo?: {};
+    // }
 
     const handleDrag = () => {};
 
     return (
         <div className='flex overflow-scroll'>
-            {/* <button onClick={getData} className='bg-red-500'>
-                Get data
-            </button> */}
-
             <DragDropContext onDragEnd={handleDrag}>
                 <Droppable droppableId='board' direction='horizontal' type='column'>
                     {(provided) => (
                         <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
                             {Object.keys(entries).map((item, index) => (
-                                <Column key={index} index={index} name={item} content={entries[`${item}`]['content']} />
+                                <Column
+                                    key={index}
+                                    index={index}
+                                    name={item}
+                                    content={entries[`${item}`]['content']}
+                                    // content={entries.get(item)['content']}
+                                />
                             ))}
                             {provided.placeholder}
                         </div>
