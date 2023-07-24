@@ -21,7 +21,7 @@ export default function Home() {
                 dispatch(setUser(userdata));
             } else {
                 dispatch(setUser(null));
-                router.push('/register');
+                // router.push('/register');
             }
         });
 
@@ -30,13 +30,13 @@ export default function Home() {
         };
     }, []);
 
-    if (!currentUser) {
-        return (
-            <div className='flex h-screen bg-black items-center justify-center'>
-                <h1>Not Authorized</h1>
-            </div>
-        );
-    }
+    // if (!currentUser) {
+    //     return (
+    //         <div className='flex h-screen bg-black items-center justify-center'>
+    //             <h1>Not Authorized</h1>
+    //         </div>
+    //     );
+    // }
     return (
         <main className='bg-white text-black'>
             <Navbar />
