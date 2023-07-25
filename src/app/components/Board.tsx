@@ -7,9 +7,11 @@ import { getBoard } from '../redux/boardState';
 import { getDataByColumn } from '../lib/getDataByColumn';
 import Column from './Column';
 import { entriesToColumn } from '../lib/entriesToColumn';
+import { MockData } from '../lib/mockData/MockData';
 
 function Board() {
     const { board } = useSelector((state: RootState) => state.board);
+    const { currentUser } = useSelector((state: RootState) => state.user);
     const [renderBoard, setRenderBoard] = useState([1, 2, 3]);
     const dispatch = useDispatch();
     const [entries, setEntries] = useState<any>({});
@@ -19,8 +21,9 @@ function Board() {
             const data = await entriesToColumn();
             setEntries(data);
         };
-
-        getEntries();
+        if (currentUser) {
+            getEntries();
+        }
     }, []);
 
     // interface Entries {
@@ -37,15 +40,25 @@ function Board() {
                 <Droppable droppableId='board' direction='horizontal' type='column'>
                     {(provided) => (
                         <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
-                            {Object.keys(entries).map((item, index) => (
-                                <Column
-                                    key={index}
-                                    index={index}
-                                    name={item}
-                                    content={entries[`${item}`]['content']}
-                                    // content={entries.get(item)['content']}
-                                />
-                            ))}
+                            {currentUser
+                                ? Object.keys(entries).map((item, index) => (
+                                      <Column
+                                          key={index}
+                                          index={index}
+                                          name={item}
+                                          content={entries[`${item}`]['content']}
+                                          // content={entries.get(item)['content']}
+                                      />
+                                  ))
+                                : Object.keys(MockData).map((item, index) => (
+                                      <Column
+                                          key={index}
+                                          index={index}
+                                          name={item}
+                                          content={MockData[`${item}`]['content']}
+                                          // content={entries.get(item)['content']}
+                                      />
+                                  ))}
                             {provided.placeholder}
                         </div>
                     )}

@@ -40,7 +40,9 @@ export default function Home() {
     return (
         <main className='bg-white text-black'>
             <Navbar />
-            <Board />
+            <main className='h-screen'>
+                <Board />
+            </main>
         </main>
     );
 }
