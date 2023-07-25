@@ -40,7 +40,7 @@ function Board() {
                                   ))
                                 : Object.keys(MockData).map((item, index) => (
                                       <Column
-                                          key={item}
+                                          key={index + 30}
                                           index={index}
                                           item={item}
                                           content={MockData[`${item}`]['content']}

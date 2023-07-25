@@ -1,5 +1,5 @@
 export const MockData: any = {
-    done: { content: ['Walk the dog', 'Do Stuff'], id: '' },
-    inprogress: { content: ['Fire the Cat'], id: '' },
-    todo: { content: ['Jump the gun'], id: '' },
+    done: { content: ['Walk the dog', 'Do Stuff'] },
+    inprogress: { content: ['Fire the Cat'] },
+    todo: { content: ['Jump the gun'] },
 };

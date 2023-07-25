@@ -12,14 +12,14 @@ const Column = ({ index, item, content, draggableId }: any) => {
                             <button className='text-white text-xs'>edit</button>
                         </div>
                     </div>
-                    <Droppable droppableId={`${name} column ${index}`}>
+                    <Droppable droppableId={`column ${item}`}>
                         {(provided) => (
                             <div
                                 className='shadow-md border border-solid w-[95%] p-5 mx-auto mb-5'
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}>
                                 {content.map((item: any, index: React.Key | null | undefined) => (
-                                    <Card index={index} text={item} key={index} />
+                                    <Card index={index} text={item} key={index} draggableId={`${item} card`} />
                                 ))}
                                 {provided.placeholder}
                             </div>
