@@ -24,18 +24,12 @@ function Board() {
         if (currentUser) {
             getEntries();
         }
-    }, []);
-
-    // interface Entries {
-    //     done?: {};
-    //     inprogress?: {};
-    //     todo?: {};
-    // }
+    }, [currentUser]);
 
     const handleDrag = () => {};
 
     return (
-        <div className='flex overflow-scroll'>
+        <div className='flex overflow-x-auto'>
             <DragDropContext onDragEnd={handleDrag}>
                 <Droppable droppableId='board' direction='horizontal' type='column'>
                     {(provided) => (
@@ -43,20 +37,21 @@ function Board() {
                             {currentUser
                                 ? Object.keys(entries).map((item, index) => (
                                       <Column
-                                          key={index}
+                                          key={item}
                                           index={index}
-                                          name={item}
+                                          item={item}
                                           content={entries[`${item}`]['content']}
-                                          // content={entries.get(item)['content']}
+                                          draggableId={`${item} firebase`}
                                       />
                                   ))
                                 : Object.keys(MockData).map((item, index) => (
                                       <Column
-                                          key={index}
+                                          //   key={`${item} data`}
+                                          key={item}
                                           index={index}
-                                          name={item}
+                                          item={item}
                                           content={MockData[`${item}`]['content']}
-                                          // content={entries.get(item)['content']}
+                                          draggableId={`${item} data`}
                                       />
                                   ))}
                             {provided.placeholder}

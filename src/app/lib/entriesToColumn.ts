@@ -7,18 +7,9 @@ export const entriesToColumn = async () => {
 
     if (docSnap.exists()) {
         const todos = docSnap.data();
-        // const board = todos['todo'].map((item) => {
-        //     return item;
-        // });
-        // console.log(board);
-        // return board;
-        console.log(todos.entries);
-        const obj = todos.entries;
-        const keys = Object.keys(obj);
-        console.log(keys);
 
+        console.log(todos['entries']);
         return todos['entries'];
-        // return 'hello';
     } else {
         console.log('never started');
     }

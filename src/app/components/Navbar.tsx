@@ -20,7 +20,6 @@ const Navbar = () => {
     return (
         <nav className='flex justify-between p-5 text-black items-center'>
             <h1 className='font-bold text-xl'>Priority Hub</h1>
-            {/* <button onClick={handleSignOut}>Sign Out</button> */}
             <div className='flex gap-1 items-center'>
                 <div className='border border-black border-solid p-2'>
                     <input type='text' className='outline-none' placeholder='Search' />
@@ -32,7 +31,7 @@ const Navbar = () => {
                             <Menu.Items>
                                 <Menu.Item>
                                     {({ active }) => (
-                                        <div className='p-4 border shadow-md absolute mt-1 bg-white'>
+                                        <div className='p-4 border shadow-md absolute mt-1 bg-white -ml-5'>
                                             <ul>
                                                 <li>
                                                     <a onClick={handleSignOut} className={`${active && 'bg-blue-500'} relative p-2 rounded-md`}>
@@ -51,10 +50,10 @@ const Navbar = () => {
                             <Menu.Items>
                                 <Menu.Item>
                                     {({ active }) => (
-                                        <div className='p-4 border shadow-md absolute mt-1 bg-white'>
+                                        <div className='p-4 border shadow-md absolute mt-1 bg-white -ml-5'>
                                             <ul>
                                                 <li>
-                                                    <a onClick={handleSignIn} className={`${active && 'bg-blue-500'} relative rounded-md`}>
+                                                    <a onClick={handleSignIn} className={`${active && 'bg-blue-500'} relative p-2 rounded-md`}>
                                                         sign in
                                                     </a>
                                                 </li>
