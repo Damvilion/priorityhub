@@ -3,18 +3,27 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import Column from './Column';
-import { entriesToColumn } from '../lib/entriesToColumn';
 import { MockData } from '../lib/mockData/MockData';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../../firebase-config';
 
 function Board() {
     const { currentUser } = useSelector((state: RootState) => state.user);
-    const [entries, setEntries] = useState<any>({});
+    const [entries, setEntries] = useState<any>([]);
+    const getEntries = async () => {
+        const docRef = doc(db, 'users', currentUser.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const todos = docSnap.data();
+            console.log(todos['data']);
+            const data = todos['data'];
+            setEntries(data);
+        }
+    };
 
     useEffect(() => {
-        const getEntries = async () => {
-            const data = await entriesToColumn();
-            setEntries(data);
-        };
+        console.log(currentUser);
         if (currentUser) {
             getEntries();
         }
@@ -29,22 +38,24 @@ function Board() {
                     {(provided) => (
                         <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
                             {currentUser
-                                ? Object.keys(entries).map((item, index) => (
+                                ? entries.map((item: { columnName: String; content: String[] }, index: Number) => (
                                       <Column
-                                          key={item}
+                                          key={item.columnName}
                                           index={index}
+                                          name={`${item.columnName}`}
                                           item={item}
-                                          content={entries[`${item}`]['content']}
-                                          draggableId={`${item} firebase`}
+                                          content={item.content}
+                                          draggableId={`${item.columnName} firebase`}
                                       />
                                   ))
-                                : Object.keys(MockData).map((item, index) => (
+                                : MockData.map((item: { columnName: String; content: String[] }, index: Number) => (
                                       <Column
-                                          key={index + 30}
+                                          key={item.columnName}
                                           index={index}
+                                          name={`${item.columnName}`}
                                           item={item}
-                                          content={MockData[`${item}`]['content']}
-                                          draggableId={`${item} data`}
+                                          content={item.content}
+                                          draggableId={`${item.columnName} data`}
                                       />
                                   ))}
                             {provided.placeholder}

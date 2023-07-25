@@ -1,12 +1,13 @@
 'use client';
 import React, { FormEvent, FormEventHandler, useRef, useState } from 'react';
-import { createUserWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '../../../../firebase-config';
+import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
+import { auth, db } from '../../../../firebase-config';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/redux/store';
 import { useRouter } from 'next/navigation';
 import { setUser } from '@/app/redux/user';
 import Link from 'next/link';
+import { doc, setDoc } from 'firebase/firestore';
 
 const Register = () => {
     const router = useRouter();
@@ -17,6 +18,24 @@ const Register = () => {
 
         try {
             const res = await createUserWithEmailAndPassword(auth, signUpEmail, password);
+            await setDoc(doc(db, 'users', res.user.uid), {
+                uid: res.user.uid,
+                email: signUpEmail,
+                data: [
+                    {
+                        columnName: 'todo',
+                        content: ['content number 1'],
+                    },
+                    {
+                        columnName: 'in progress',
+                        content: ['content number 2'],
+                    },
+                    {
+                        columnName: 'done',
+                        content: ['filler content'],
+                    },
+                ],
+            });
             router.push('/login');
         } catch (error) {
             console.log(error);

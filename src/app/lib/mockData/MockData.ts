@@ -1,5 +1,14 @@
-export const MockData: any = {
-    done: { content: ['Walk the dog', 'Do Stuff'] },
-    inprogress: { content: ['Fire the Cat'] },
-    todo: { content: ['Jump the gun'] },
-};
+export const MockData: any = [
+    {
+        columnName: 'todo',
+        content: ['Jump the gun'],
+    },
+    {
+        columnName: 'in progress',
+        content: ['Fire the Cat'],
+    },
+    {
+        columnName: 'done',
+        content: ['Walk the dog', 'do stuff'],
+    },
+];
