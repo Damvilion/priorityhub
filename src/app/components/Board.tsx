@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { getBoard } from '../redux/boardState';
-import { getDataByColumn } from '../lib/getDataByColumn';
 import Column from './Column';
 import { entriesToColumn } from '../lib/entriesToColumn';
 import { MockData } from '../lib/mockData/MockData';
