@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getDataByColumn } from '../lib/getDataByColumn';
 
 export interface BoardState {
     board: any;
