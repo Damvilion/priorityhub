@@ -2,17 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { useDispatch } from 'react-redux';
-import { getBoard } from '../redux/boardState';
 import Column from './Column';
 import { entriesToColumn } from '../lib/entriesToColumn';
 import { MockData } from '../lib/mockData/MockData';
 
 function Board() {
-    const { board } = useSelector((state: RootState) => state.board);
     const { currentUser } = useSelector((state: RootState) => state.user);
-    const [renderBoard, setRenderBoard] = useState([1, 2, 3]);
-    const dispatch = useDispatch();
     const [entries, setEntries] = useState<any>({});
 
     useEffect(() => {
@@ -45,7 +40,6 @@ function Board() {
                                   ))
                                 : Object.keys(MockData).map((item, index) => (
                                       <Column
-                                          //   key={`${item} data`}
                                           key={item}
                                           index={index}
                                           item={item}
