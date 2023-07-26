@@ -33,9 +33,6 @@ function Board() {
     const handleDrag = (result: DropResult) => {
         const { destination, source, type } = result;
 
-        // console.log(source);
-        // console.log(destination);
-        // console.log(type);
         if (!destination) return;
 
         if (type === 'column' && currentUser) {
@@ -43,7 +40,7 @@ function Board() {
             let temp = every.splice(source.index, 1)[0];
             every.splice(destination.index, 0, temp);
             setEntries(every);
-        } else {
+        } else if (type === 'column' && !currentUser) {
             let temp = MockData.splice(source.index, 1)[0];
             MockData.splice(destination.index, 0, temp);
             setEntries(MockData);
