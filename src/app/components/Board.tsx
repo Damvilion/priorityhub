@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import Column from './Column';
@@ -23,13 +23,32 @@ function Board() {
     };
 
     useEffect(() => {
-        console.log(currentUser);
         if (currentUser) {
             getEntries();
+        } else {
+            setEntries(MockData);
         }
     }, [currentUser]);
 
-    const handleDrag = () => {};
+    const handleDrag = (result: DropResult) => {
+        const { destination, source, type } = result;
+
+        // console.log(source);
+        // console.log(destination);
+        // console.log(type);
+        if (!destination) return;
+
+        if (type === 'column' && currentUser) {
+            const every = entries;
+            let temp = every.splice(source.index, 1)[0];
+            every.splice(destination.index, 0, temp);
+            setEntries(every);
+        } else {
+            let temp = MockData.splice(source.index, 1)[0];
+            MockData.splice(destination.index, 0, temp);
+            setEntries(MockData);
+        }
+    };
 
     return (
         <div className='flex overflow-x-auto'>
@@ -37,27 +56,16 @@ function Board() {
                 <Droppable droppableId='board' direction='horizontal' type='column'>
                     {(provided) => (
                         <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
-                            {currentUser
-                                ? entries.map((item: { columnName: String; content: String[] }, index: Number) => (
-                                      <Column
-                                          key={item.columnName}
-                                          index={index}
-                                          name={`${item.columnName}`}
-                                          item={item}
-                                          content={item.content}
-                                          draggableId={`${item.columnName} firebase`}
-                                      />
-                                  ))
-                                : MockData.map((item: { columnName: String; content: String[] }, index: Number) => (
-                                      <Column
-                                          key={item.columnName}
-                                          index={index}
-                                          name={`${item.columnName}`}
-                                          item={item}
-                                          content={item.content}
-                                          draggableId={`${item.columnName} data`}
-                                      />
-                                  ))}
+                            {entries.map((item: { columnName: String; content: String[] }, index: Number) => (
+                                <Column
+                                    key={item.columnName}
+                                    index={index}
+                                    name={`${item.columnName}`}
+                                    item={item}
+                                    content={item.content}
+                                    draggableId={`${item.columnName} firebase`}
+                                />
+                            ))}
                             {provided.placeholder}
                         </div>
                     )}
