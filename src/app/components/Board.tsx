@@ -37,11 +37,6 @@ function Board() {
 
     const handleDrag = (result: DropResult) => {
         const { destination, source, type } = result;
-        // console.log(entries);
-        // console.log(type);
-        // console.log(source);
-        // console.log(destination);
-
         if (!destination) return;
 
         if (type === 'column' && currentUser) {
@@ -57,19 +52,25 @@ function Board() {
 
         if (type === 'DEFAULT' && !currentUser) {
             const every = entries;
+            console.log(entries);
+            console.log(source);
+            console.log(destination);
             every.map((item: Item) => {
                 if (source.droppableId === item.columnName) {
-                    const newData = item.content[source.index];
-                    item.content.splice(source.index, 1);
-                    console.log(newData);
+                    // const newData = item.content[source.index];
+                    const newData = item.content.splice(source.index, 1);
+                    console.log(newData[0]);
 
                     every.map((item: Item) => {
                         if (destination.droppableId === item.columnName) {
-                            item.content.splice(destination.index, 0, newData);
+                            item.content.splice(destination.index, 0, newData[0]);
                         }
                     });
                     setEntries(every);
+                } else {
+                    return item;
                 }
+                console.log(entries);
             });
         } else if (type === 'DEFAULT' && currentUser) {
             const every = entries;
@@ -77,7 +78,6 @@ function Board() {
                 if (source.droppableId === item.columnName) {
                     const newData = item.content[source.index];
                     item.content.splice(source.index, 1);
-                    // console.log(newData);
 
                     every.map((item: Item) => {
                         if (destination.droppableId === item.columnName) {
@@ -85,6 +85,8 @@ function Board() {
                         }
                     });
                     setEntries(every);
+                } else {
+                    return item;
                 }
             });
         }
@@ -100,10 +102,10 @@ function Board() {
                                 <Column
                                     key={item.columnName}
                                     index={index}
-                                    name={`${item.columnName}`}
+                                    name={item.columnName}
                                     item={item}
                                     content={item.content}
-                                    draggableId={`${item.columnName} firebase`}
+                                    draggableId={item.columnName}
                                 />
                             ))}
                             {provided.placeholder}
