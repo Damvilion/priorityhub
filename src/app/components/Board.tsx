@@ -7,7 +7,7 @@ import { MockData } from '../lib/mockData/MockData';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
-type item = {
+type Item = {
     columnName: String;
     content: String[];
 };
@@ -57,13 +57,13 @@ function Board() {
 
         if (type === 'DEFAULT' && !currentUser) {
             const every = entries;
-            every.map((item: item) => {
+            every.map((item: Item) => {
                 if (source.droppableId === item.columnName) {
                     const newData = item.content[source.index];
                     item.content.splice(source.index, 1);
                     console.log(newData);
 
-                    every.map((item: item) => {
+                    every.map((item: Item) => {
                         if (destination.droppableId === item.columnName) {
                             item.content.splice(destination.index, 0, newData);
                         }
@@ -73,13 +73,13 @@ function Board() {
             });
         } else if (type === 'DEFAULT' && currentUser) {
             const every = entries;
-            every.map((item: item) => {
+            every.map((item: Item) => {
                 if (source.droppableId === item.columnName) {
                     const newData = item.content[source.index];
                     item.content.splice(source.index, 1);
                     // console.log(newData);
 
-                    every.map((item: item) => {
+                    every.map((item: Item) => {
                         if (destination.droppableId === item.columnName) {
                             item.content.splice(destination.index, 0, newData);
                         }
@@ -96,7 +96,7 @@ function Board() {
                 <Droppable droppableId='board' direction='horizontal' type='column'>
                     {(provided) => (
                         <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
-                            {entries.map((item: { columnName: String; content: String[] }, index: Number) => (
+                            {entries.map((item: Item, index: Number) => (
                                 <Column
                                     key={item.columnName}
                                     index={index}

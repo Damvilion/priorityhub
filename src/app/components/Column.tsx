@@ -19,7 +19,7 @@ const Column = ({ index, item, content, draggableId, name }: any) => {
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}>
                                 {content.map((item: any, index: React.Key | null | undefined) => (
-                                    <Card index={index} text={item} key={index} draggableId={`${item} card`} />
+                                    <Card index={index} text={item} key={index} draggableId={`${item + index}`} />
                                 ))}
                                 {provided.placeholder}
                             </div>
