@@ -7,6 +7,11 @@ import { MockData } from '../lib/mockData/MockData';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
+type item = {
+    columnName: String;
+    content: String[];
+};
+
 function Board() {
     const { currentUser } = useSelector((state: RootState) => state.user);
     const [entries, setEntries] = useState<any>([]);
@@ -32,6 +37,10 @@ function Board() {
 
     const handleDrag = (result: DropResult) => {
         const { destination, source, type } = result;
+        // console.log(entries);
+        // console.log(type);
+        // console.log(source);
+        // console.log(destination);
 
         if (!destination) return;
 
@@ -44,6 +53,40 @@ function Board() {
             let temp = MockData.splice(source.index, 1)[0];
             MockData.splice(destination.index, 0, temp);
             setEntries(MockData);
+        }
+
+        if (type === 'DEFAULT' && !currentUser) {
+            const every = entries;
+            every.map((item: item) => {
+                if (source.droppableId === item.columnName) {
+                    const newData = item.content[source.index];
+                    item.content.splice(source.index, 1);
+                    console.log(newData);
+
+                    every.map((item: item) => {
+                        if (destination.droppableId === item.columnName) {
+                            item.content.splice(destination.index, 0, newData);
+                        }
+                    });
+                    setEntries(every);
+                }
+            });
+        } else if (type === 'DEFAULT' && currentUser) {
+            const every = entries;
+            every.map((item: item) => {
+                if (source.droppableId === item.columnName) {
+                    const newData = item.content[source.index];
+                    item.content.splice(source.index, 1);
+                    // console.log(newData);
+
+                    every.map((item: item) => {
+                        if (destination.droppableId === item.columnName) {
+                            item.content.splice(destination.index, 0, newData);
+                        }
+                    });
+                    setEntries(every);
+                }
+            });
         }
     };
 

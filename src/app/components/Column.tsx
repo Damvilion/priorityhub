@@ -12,7 +12,7 @@ const Column = ({ index, item, content, draggableId, name }: any) => {
                             <button className='text-white text-xs'>edit</button>
                         </div>
                     </div>
-                    <Droppable droppableId={`column ${item.columnName}`}>
+                    <Droppable droppableId={`${item.columnName}`}>
                         {(provided) => (
                             <div
                                 className='shadow-md border border-solid w-[95%] p-5 mx-auto mb-5'
