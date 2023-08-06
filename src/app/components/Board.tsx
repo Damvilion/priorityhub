@@ -43,6 +43,7 @@ function Board() {
             let temp = every.splice(source.index, 1)[0];
             every.splice(destination.index, 0, temp);
             setEntries(every);
+            updateBoardData();
         } else if (type === 'column' && !currentUser) {
             let temp = MockData.splice(source.index, 1)[0];
             MockData.splice(destination.index, 0, temp);
@@ -51,15 +52,10 @@ function Board() {
 
         if (type === 'DEFAULT' && !currentUser) {
             const every = entries;
-            console.log(entries);
-            console.log(source);
-            console.log(destination);
             every.map((item: Item) => {
                 if (source.droppableId === item.columnName) {
                     // const newData = item.content[source.index];
                     const newData = item.content.splice(source.index, 1);
-                    console.log(newData[0]);
-
                     every.map((item: Item) => {
                         if (destination.droppableId === item.columnName) {
                             item.content.splice(destination.index, 0, newData[0]);
@@ -75,7 +71,6 @@ function Board() {
             const every = entries;
             every.map((item: Item) => {
                 if (source.droppableId === item.columnName) {
-                    // const newData = item.content[source.index];
                     const newData = item.content.splice(source.index, 1);
 
                     every.map((item: Item) => {
@@ -84,13 +79,12 @@ function Board() {
                         }
                     });
                     setEntries(every);
+                    updateBoardData();
                 } else {
                     return item;
                 }
             });
         }
-
-        updateBoardData();
     };
 
     const updateBoardData = async () => {
