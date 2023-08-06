@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import Column from './Column';
 import { MockData } from '../lib/mockData/MockData';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
 type Item = {
@@ -14,15 +14,14 @@ type Item = {
 
 function Board() {
     const { currentUser } = useSelector((state: RootState) => state.user);
-    const [entries, setEntries] = useState<any>([]);
+    const [entries, setEntries] = useState<Item[]>([]);
     const getEntries = async () => {
         const docRef = doc(db, 'users', currentUser.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            const todos = docSnap.data();
-            console.log(todos['data']);
-            const data = todos['data'];
+            const customerData = docSnap.data();
+            const data = customerData['data'];
             setEntries(data);
         }
     };
@@ -76,12 +75,12 @@ function Board() {
             const every = entries;
             every.map((item: Item) => {
                 if (source.droppableId === item.columnName) {
-                    const newData = item.content[source.index];
-                    item.content.splice(source.index, 1);
+                    // const newData = item.content[source.index];
+                    const newData = item.content.splice(source.index, 1);
 
                     every.map((item: Item) => {
                         if (destination.droppableId === item.columnName) {
-                            item.content.splice(destination.index, 0, newData);
+                            item.content.splice(destination.index, 0, newData[0]);
                         }
                     });
                     setEntries(every);
@@ -90,6 +89,15 @@ function Board() {
                 }
             });
         }
+
+        updateBoardData();
+    };
+
+    const updateBoardData = async () => {
+        const dataRef = doc(db, 'users', currentUser.uid);
+        await updateDoc(dataRef, {
+            data: [...entries],
+        });
     };
 
     return (
