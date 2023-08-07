@@ -57,9 +57,7 @@ function Board(): React.JSX.Element {
     };
 
     const updateLocalStorage = () => {
-        if (!currentUser) {
-            localStorage.setItem('board', JSON.stringify(entries));
-        }
+        if (!currentUser) localStorage.setItem('board', JSON.stringify(entries));
     };
 
     const handleDrag = (result: DropResult) => {
