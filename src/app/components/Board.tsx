@@ -14,7 +14,9 @@ type Item = {
 
 function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
+    console.log(currentUser);
     const [entries, setEntries] = useState<Item[]>([]);
+
     const getEntries = async () => {
         if (currentUser) {
             const docRef = doc(db, 'users', currentUser.uid);
@@ -30,10 +32,30 @@ function Board(): React.JSX.Element {
     useEffect(() => {
         if (currentUser) {
             getEntries();
-        } else {
-            setEntries(MockData);
+        } else if (!currentUser) {
+            const storage = localStorage.getItem('board');
+            if (storage) {
+                setEntries(JSON.parse(storage));
+            } else {
+                localStorage.setItem('board', JSON.stringify(MockData));
+            }
         }
     }, [currentUser]);
+
+    const updateBoardData = async () => {
+        if (currentUser) {
+            const dataRef = doc(db, 'users', currentUser.uid);
+            await updateDoc(dataRef, {
+                data: [...entries],
+            });
+        }
+    };
+
+    const updateLocalStorage = () => {
+        if (!currentUser) {
+            localStorage.setItem('board', JSON.stringify(entries));
+        }
+    };
 
     const handleDrag = (result: DropResult) => {
         const { destination, source, type } = result;
@@ -45,9 +67,10 @@ function Board(): React.JSX.Element {
             every.splice(destination.index, 0, temp);
             setEntries(every);
         } else if (type === 'column' && !currentUser) {
-            let temp = MockData.splice(source.index, 1)[0];
-            MockData.splice(destination.index, 0, temp);
-            setEntries(MockData);
+            const every = entries;
+            let temp = every.splice(source.index, 1)[0];
+            every.splice(destination.index, 0, temp);
+            setEntries(every);
         }
 
         if (type === 'DEFAULT' && !currentUser) {
@@ -85,15 +108,7 @@ function Board(): React.JSX.Element {
             });
         }
         updateBoardData();
-    };
-
-    const updateBoardData = async () => {
-        if (currentUser) {
-            const dataRef = doc(db, 'users', currentUser.uid);
-            await updateDoc(dataRef, {
-                data: [...entries],
-            });
-        }
+        updateLocalStorage();
     };
 
     return (
