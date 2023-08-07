@@ -34,10 +34,10 @@ function Board(): React.JSX.Element {
             getEntries();
         } else if (!currentUser) {
             const storage = localStorage.getItem('board');
-            if (!storage) {
-                localStorage.setItem('board', JSON.stringify(MockData));
+            if (storage) {
+                setEntries(JSON.parse(storage!));
             }
-            setEntries(JSON.parse(storage!));
+            localStorage.setItem('board', JSON.stringify(MockData));
         }
     }, [currentUser]);
 
@@ -76,7 +76,6 @@ function Board(): React.JSX.Element {
             const every = entries;
             every.map((item: Item) => {
                 if (source.droppableId === item.columnName) {
-                    // const newData = item.content[source.index];
                     const newData = item.content.splice(source.index, 1);
                     every.map((item: Item) => {
                         if (destination.droppableId === item.columnName) {
@@ -87,7 +86,6 @@ function Board(): React.JSX.Element {
                 } else {
                     return item;
                 }
-                console.log(entries);
             });
         } else if (type === 'DEFAULT' && currentUser) {
             const every = entries;
