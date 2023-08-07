@@ -14,6 +14,7 @@ type Item = {
 
 function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
+    console.log(currentUser);
     const [entries, setEntries] = useState<Item[]>([]);
 
     const getEntries = async () => {
@@ -28,10 +29,8 @@ function Board(): React.JSX.Element {
         }
     };
 
-    useEffect(() => {
-        if (currentUser) {
-            getEntries();
-        } else if (!currentUser) {
+    const renderMockData = () => {
+        if (currentUser === null) {
             const storage = localStorage.getItem('board');
             if (storage) {
                 setEntries(JSON.parse(storage));
@@ -41,6 +40,11 @@ function Board(): React.JSX.Element {
                 setEntries(JSON.parse(storage!));
             }
         }
+    };
+
+    useEffect(() => {
+        getEntries();
+        renderMockData();
     }, [currentUser]);
 
     const updateBoardData = async () => {

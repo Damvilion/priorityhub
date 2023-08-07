@@ -13,7 +13,7 @@ export interface User {
 }
 
 const initialState: userState = {
-    currentUser: null,
+    currentUser: undefined,
 };
 
 export const currentUser = createSlice({
