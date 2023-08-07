@@ -19,11 +19,13 @@ const Navbar = () => {
 
     return (
         <nav className='flex justify-between p-5 text-black items-center'>
-            <h1 className='font-bold text-xl'>Priority Hub</h1>
+            <a href='/'>
+                <h1 className='font-bold text-xl'>Priority Hub</h1>
+            </a>
             <div className='flex gap-1 items-center'>
-                <div className='border border-black border-solid p-2'>
+                {/* <div className='border border-black border-solid p-2'>
                     <input type='text' className='outline-none' placeholder='Search' />
-                </div>
+                </div> */}
                 <div className='p-4'>
                     {currentUser ? (
                         <Menu>

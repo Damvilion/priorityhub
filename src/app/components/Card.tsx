@@ -4,9 +4,11 @@ import { Draggable } from 'react-beautiful-dnd';
 const Card = ({ text, index, draggableId }: any) => {
     return (
         <Draggable draggableId={draggableId} index={index}>
-            {(provided) => (
+            {(provided, Snapshot) => (
                 <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className='flex flex-col items-center'>
-                    <div className='border border-solid w-full text-center p-5 m-2'>{text}</div>
+                    <div className={`${Snapshot.draggingOver ? 'border-green-400' : 'border-solid'} border border-solid w-full text-center p-5 m-2`}>
+                        {text}
+                    </div>
                 </div>
             )}
         </Draggable>

@@ -4,14 +4,15 @@ import Card from './Card';
 const Column = ({ index, content, draggableId, name }: any) => {
     return (
         <Draggable draggableId={draggableId} index={index}>
-            {(provided) => (
+            {(provided, Snapshot) => (
                 <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className=''>
-                    <div
-                        className='bg-black p-5 m-2 md:w-[400px] w-[200px]
-                    '>
-                        <div className='flex justify-between gap-1'>
+                    <div className={`${Snapshot.draggingOver ? 'opacity-90' : ''} bg-black border p-5 m-2 md:w-[400px] w-[200px]`}>
+                        <div className='flex justify-between items-center gap-1'>
                             <p className='text-white'>{name}</p>
-                            <button className='text-white text-xs'>edit</button>
+                            <div className='flex items-center gap-3'>
+                                {/* <button className='text-white'>. . .</button> */}
+                                <button className='text-white'>edit</button>
+                            </div>
                         </div>
                     </div>
                     <Droppable droppableId={name}>

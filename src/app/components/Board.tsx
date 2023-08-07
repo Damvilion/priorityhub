@@ -8,21 +8,22 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
 type Item = {
-    columnName: String;
-    content: String[];
+    columnName: string;
+    content: string[];
 };
 
-function Board() {
+function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
     const [entries, setEntries] = useState<Item[]>([]);
     const getEntries = async () => {
-        const docRef = doc(db, 'users', currentUser.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            const customerData = docSnap.data();
-            const data = customerData['data'];
-            setEntries(data);
+        if (currentUser) {
+            const docRef = doc(db, 'users', currentUser.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const customerData = docSnap.data();
+                const data = customerData['data'];
+                setEntries(data);
+            }
         }
     };
 
@@ -43,7 +44,6 @@ function Board() {
             let temp = every.splice(source.index, 1)[0];
             every.splice(destination.index, 0, temp);
             setEntries(every);
-            updateBoardData();
         } else if (type === 'column' && !currentUser) {
             let temp = MockData.splice(source.index, 1)[0];
             MockData.splice(destination.index, 0, temp);
@@ -79,19 +79,21 @@ function Board() {
                         }
                     });
                     setEntries(every);
-                    updateBoardData();
                 } else {
                     return item;
                 }
             });
         }
+        updateBoardData();
     };
 
     const updateBoardData = async () => {
-        const dataRef = doc(db, 'users', currentUser.uid);
-        await updateDoc(dataRef, {
-            data: [...entries],
-        });
+        if (currentUser) {
+            const dataRef = doc(db, 'users', currentUser.uid);
+            await updateDoc(dataRef, {
+                data: [...entries],
+            });
+        }
     };
 
     return (
@@ -100,7 +102,7 @@ function Board() {
                 <Droppable droppableId='board' direction='horizontal' type='column'>
                     {(provided) => (
                         <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
-                            {entries.map((item: Item, index: Number) => (
+                            {entries.map((item: Item, index: number) => (
                                 <Column
                                     key={item.columnName}
                                     index={index}
@@ -111,6 +113,9 @@ function Board() {
                                 />
                             ))}
                             {provided.placeholder}
+                            {/* <div>
+                                <span className='text-5xl'>HEY!</span>
+                            </div> */}
                         </div>
                     )}
                 </Droppable>
