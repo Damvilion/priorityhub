@@ -34,11 +34,10 @@ function Board(): React.JSX.Element {
             getEntries();
         } else if (!currentUser) {
             const storage = localStorage.getItem('board');
-            if (storage) {
-                setEntries(JSON.parse(storage));
-            } else {
+            if (!storage) {
                 localStorage.setItem('board', JSON.stringify(MockData));
             }
+            setEntries(JSON.parse(storage!));
         }
     }, [currentUser]);
 
