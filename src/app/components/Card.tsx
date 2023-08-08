@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import DraggableCardComponent from './draggables/DraggableCardComponent';
 
 const Card = ({ text, index, draggableId }: any) => {
     return (
         <Draggable draggableId={draggableId} index={index}>
             {(provided, Snapshot) => (
                 <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className='flex flex-col items-center'>
-                    <div
-                        className={`${
-                            Snapshot.draggingOver ? 'border-purple-500' : 'border-solid'
-                        } rounded-md border border-solid w-full text-center p-5 m-2 text-white hover:border-purple-300`}>
-                        {text}
-                    </div>
+                    <DraggableCardComponent text={text} Snapshot={Snapshot} />
                 </div>
             )}
         </Draggable>
