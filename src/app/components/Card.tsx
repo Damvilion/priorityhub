@@ -9,7 +9,7 @@ const Card = ({ text, index, draggableId }: any) => {
                     <div
                         className={`${
                             Snapshot.draggingOver ? 'border-purple-500' : 'border-solid'
-                        } rounded-md border border-solid w-full text-center p-5 m-2 text-white`}>
+                        } rounded-md border border-solid w-full text-center p-5 m-2 text-white hover:border-purple-300`}>
                         {text}
                     </div>
                 </div>

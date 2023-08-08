@@ -55,3 +55,29 @@ body {
     );
     filter: blur(400px);
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    transition: all;
+    transition: ease-in;
+    transition-duration: 1000;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #888;
+    border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(60, 1, 60);
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #560462;
+}
