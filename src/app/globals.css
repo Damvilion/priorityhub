@@ -3,25 +3,55 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+.absoultePositioning {
+    position: absolute;
+
+    bottom: 0px;
+    right: 0px;
+}
+
+.gradient-01 {
+    background-image: linear-gradient(
+        270deg,
+        hsl(295deg 76% 51%) 0%,
+        hsl(284deg 70% 73%) 26%,
+        hsl(257deg 70% 86%) 39%,
+        hsl(202deg 92% 90%) 50%,
+        hsl(215deg 77% 81%) 61%,
+        hsl(221deg 73% 70%) 74%,
+        hsl(220deg 76% 51%) 100%
+    );
+    filter: blur(125px);
+}
+
+.gradient-02 {
+    background-image: linear-gradient(
+        270deg,
+        hsl(295deg 76% 51%) 0%,
+        hsl(284deg 70% 73%) 26%,
+        hsl(257deg 70% 86%) 39%,
+        hsl(202deg 92% 90%) 50%,
+        hsl(215deg 77% 81%) 61%,
+        hsl(221deg 73% 70%) 74%,
+        hsl(220deg 76% 51%) 100%
+    );
+    filter: blur(400px);
 }

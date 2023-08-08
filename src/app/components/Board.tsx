@@ -113,7 +113,7 @@ function Board(): React.JSX.Element {
     };
 
     return (
-        <div className='flex overflow-x-auto'>
+        <div className='flex overflow-x-auto z-50'>
             <DragDropContext onDragEnd={handleDrag}>
                 <Droppable droppableId='board' direction='horizontal' type='column'>
                     {(provided) => (

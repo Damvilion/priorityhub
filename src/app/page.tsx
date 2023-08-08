@@ -30,17 +30,11 @@ export default function Home() {
         };
     }, []);
 
-    // if (!currentUser) {
-    //     return (
-    //         <div className='flex h-screen bg-black items-center justify-center'>
-    //             <h1>Not Authorized</h1>
-    //         </div>
-    //     );
-    // }
     return (
-        <main className='bg-white text-black'>
+        <main className='bg-black text-black relative'>
+            <div className='absoultePositioning h-[300px] w-[80%] gradient-02 opacity-80 z-1' />
             <Navbar />
-            <main className='h-screen'>
+            <main className='h-screen relative z-50'>
                 <Board />
             </main>
         </main>

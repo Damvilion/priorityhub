@@ -8,8 +8,8 @@ const Card = ({ text, index, draggableId }: any) => {
                 <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className='flex flex-col items-center'>
                     <div
                         className={`${
-                            Snapshot.draggingOver ? 'border-green-400' : 'border-solid'
-                        } rounded-md border border-solid w-full text-center p-5 m-2`}>
+                            Snapshot.draggingOver ? 'border-purple-500' : 'border-solid'
+                        } rounded-md border border-solid w-full text-center p-5 m-2 text-white`}>
                         {text}
                     </div>
                 </div>

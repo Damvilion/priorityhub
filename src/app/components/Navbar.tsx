@@ -18,9 +18,10 @@ const Navbar = () => {
     };
 
     return (
-        <nav className='flex justify-between p-5 text-black items-center'>
+        <nav className='flex justify-between p-5 text-black items-center z-1'>
+            <div className='absolute h-[300px] w-[80%] gradient-01 opacity-20' />
             <a href='/'>
-                <h1 className='font-bold text-xl'>Priority Hub</h1>
+                <h1 className='font-bold text-xl text-white'>Priority Hub</h1>
             </a>
             <div className='flex gap-1 items-center'>
                 {/* <div className='border border-black border-solid p-2'>
@@ -48,7 +49,9 @@ const Navbar = () => {
                         </Menu>
                     ) : (
                         <Menu>
-                            <Menu.Button className='border border-solid p-2 rounded-md hover:bg-slate-400'>Login</Menu.Button>
+                            <Menu.Button className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-4 py-2 rounded-md ml-8'>
+                                Login
+                            </Menu.Button>
                             <Menu.Items>
                                 <Menu.Item>
                                     {({ active }) => (

@@ -7,7 +7,10 @@ const Column = ({ index, content, draggableId, name }: any) => {
         <Draggable draggableId={draggableId} index={index}>
             {(provided, Snapshot) => (
                 <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className=''>
-                    <div className={`${Snapshot.draggingOver ? 'opacity-90' : ''} bg-black border p-5 m-2 md:w-[400px] w-[200px] group`}>
+                    <div
+                        className={`${
+                            Snapshot.draggingOver ? 'opacity-90' : ''
+                        } bg-[#800080] border p-5 m-2 md:w-[400px] w-[200px] group rounded-sm`}>
                         <div className='flex justify-between items-center gap-1'>
                             <p className='text-white'>{name}</p>
                             <div className='flex items-center gap-3'>
