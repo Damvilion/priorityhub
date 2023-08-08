@@ -30,7 +30,9 @@ const Navbar = () => {
                 <div className='p-4'>
                     {currentUser ? (
                         <Menu>
-                            <Menu.Button className='border border-solid p-2 rounded-md hover:bg-slate-400'>Account</Menu.Button>
+                            <Menu.Button className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-4 py-2 rounded-md ml-8'>
+                                Account
+                            </Menu.Button>
                             <Menu.Items>
                                 <Menu.Item>
                                     {({ active }) => (
