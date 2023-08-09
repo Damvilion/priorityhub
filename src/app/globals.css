@@ -81,3 +81,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #560462;
 }
+.MuiPaper-root {
+    /* background-color: ; */
+    /* background-image: linear-gradient(to right, #d94db3, #800080); */
+    background-color: blueviolet;
+}

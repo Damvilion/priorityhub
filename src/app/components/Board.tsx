@@ -6,6 +6,7 @@ import Column from './Column';
 import { MockData } from '../lib/mockData/MockData';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
+import AddButton from './AddButton';
 
 type Item = {
     columnName: string;
@@ -62,6 +63,7 @@ function Board(): React.JSX.Element {
 
     const handleDrag = (result: DropResult) => {
         const { destination, source, type } = result;
+
         if (!destination) return;
 
         if (type === 'column' && currentUser) {
@@ -113,29 +115,29 @@ function Board(): React.JSX.Element {
     };
 
     return (
-        <div className='flex overflow-x-auto z-50'>
-            <DragDropContext onDragEnd={handleDrag}>
-                <Droppable droppableId='board' direction='horizontal' type='column'>
-                    {(provided) => (
-                        <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
-                            {entries.map((item: Item, index: number) => (
-                                <Column
-                                    key={item.columnName}
-                                    index={index}
-                                    name={item.columnName}
-                                    item={item}
-                                    content={item.content}
-                                    draggableId={item.columnName}
-                                />
-                            ))}
-                            {provided.placeholder}
-                            {/* <div>
-                                <span className='text-5xl'>HEY!</span>
-                            </div> */}
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
+        <div className='flex flex-col p-1'>
+            <AddButton />
+            <div className='flex overflow-x-auto z-50 items-center relative'>
+                <DragDropContext onDragEnd={handleDrag}>
+                    <Droppable droppableId='board' direction='horizontal' type='column'>
+                        {(provided) => (
+                            <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
+                                {entries.map((item: Item, index: number) => (
+                                    <Column
+                                        key={item.columnName}
+                                        index={index}
+                                        name={item.columnName}
+                                        item={item}
+                                        content={item.content}
+                                        draggableId={item.columnName}
+                                    />
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            </div>
         </div>
     );
 }

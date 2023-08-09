@@ -19,12 +19,11 @@ const DraggableDialogComponent = ({ open, handleClose, handleClickOpen, name }: 
                 edit
             </button>
             <Dialog open={open} onClose={handleClose} PaperComponent={PaperComponent} aria-labelledby='draggable-dialog-title'>
-                <DialogTitle
-                    className='bg-[#80008085] border p-5 m-2 md:w-[400px] w-[200px] group rounded-sm text-center flex flex-col'
-                    style={{ cursor: 'move' }}
-                    id='draggable-dialog-title'>
+                <DialogTitle className='text-black text-center flex flex-col' style={{ cursor: 'move' }} id='draggable-dialog-title'>
                     {name}
-                    <input type='text' />
+                    <div className='p-5'>
+                        <input type='text' />
+                    </div>
                 </DialogTitle>
             </Dialog>
         </div>

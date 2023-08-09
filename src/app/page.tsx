@@ -10,9 +10,7 @@ import Navbar from './components/Navbar';
 import Board from './components/Board';
 
 export default function Home() {
-    const { currentUser } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
-    const router = useRouter();
     useEffect(() => {
         const unSub = onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -21,7 +19,6 @@ export default function Home() {
                 dispatch(setUser(userdata));
             } else {
                 dispatch(setUser(null));
-                // router.push('/register');
             }
         });
 

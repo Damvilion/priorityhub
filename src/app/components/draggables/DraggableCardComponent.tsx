@@ -18,10 +18,10 @@ const DraggableCardComponent = ({ text, Snapshot }: any) => {
         <div
             className={`${
                 Snapshot.draggingOver ? 'border-purple-500' : 'border-solid'
-            } rounded-md border border-solid w-full text-center p-5 m-2 text-white hover:border-purple-300`}
+            } rounded-md border border-solid w-full text-center p-5 m-2 text-white hover:border-purple-400`}
             // onClick={() => setOpenCard((prev: boolean) => !prev)}
         >
-            <button className='text-white' onClick={() => setOpenCard((prev: boolean) => !prev)}>
+            <button className='text-white hover:text-purple-600' onClick={() => setOpenCard((prev: boolean) => !prev)}>
                 {text}
             </button>
             <Dialog
