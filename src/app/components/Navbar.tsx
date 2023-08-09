@@ -18,15 +18,12 @@ const Navbar = () => {
     };
 
     return (
-        <nav className='flex justify-between px-5 pb-2 pt-2 text-black items-center z-1'>
-            <div className='absolute h-[300px] w-[80%] gradient-01 opacity-20' />
+        <nav className='flex justify-between p-5 text-black items-center relative'>
+            <div className='absolute h-[300px] w-[80%] gradient-01 opacity-20 z-0' />
             <a href='/'>
                 <h1 className='font-bold text-xl text-white'>Priority Hub</h1>
             </a>
             <div className='flex gap-1 items-center'>
-                {/* <div className='border border-black border-solid p-2'>
-                    <input type='text' className='outline-none' placeholder='Search' />
-                </div> */}
                 <div className='p-4'>
                     {currentUser ? (
                         <Menu>
@@ -39,7 +36,7 @@ const Navbar = () => {
                                         <div className='p-4 border shadow-md absolute mt-1 bg-white -ml-5'>
                                             <ul>
                                                 <li>
-                                                    <a onClick={handleSignOut} className={`${active && 'bg-blue-500'} relative p-2 rounded-md`}>
+                                                    <a onClick={handleSignOut} className={`hover:bg-blue-500 relative p-2 rounded-md`}>
                                                         signout
                                                     </a>
                                                 </li>
@@ -59,8 +56,8 @@ const Navbar = () => {
                                     {({ active }) => (
                                         <div className='p-4 border shadow-md absolute mt-1 bg-white -ml-5'>
                                             <ul>
-                                                <li>
-                                                    <a onClick={handleSignIn} className={`${active && 'bg-blue-500'} relative p-2 rounded-md`}>
+                                                <li className='hover:bg-blue-500'>
+                                                    <a onClick={handleSignIn} className={`hover:bg-blue-500 relative p-2 rounded-md`}>
                                                         sign in
                                                     </a>
                                                 </li>
