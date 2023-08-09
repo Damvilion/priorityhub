@@ -1,10 +1,23 @@
-import React from 'react';
-import { Draggable, Droppable } from 'react-beautiful-dnd';
+import React, { useState } from 'react';
+import Draggable from 'react-draggable';
+import { Draggable as BeautifulDraggable, Droppable } from 'react-beautiful-dnd';
 import Card from './Card';
+import DraggableDialogComponent from './draggables/DraggableDialogComponent';
 const Column = ({ index, content, draggableId, name }: any) => {
     const addItems = () => {};
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen((prev) => !prev);
+    };
+
+    const handleClose = () => {
+        setOpen((prev) => !prev);
+    };
+
     return (
-        <Draggable draggableId={draggableId} index={index}>
+        <BeautifulDraggable draggableId={draggableId} index={index}>
             {(provided, Snapshot) => (
                 <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className=''>
                     <div
@@ -14,8 +27,7 @@ const Column = ({ index, content, draggableId, name }: any) => {
                         <div className='flex justify-between items-center gap-1'>
                             <p className='text-white'>{name}</p>
                             <div className='flex items-center gap-3'>
-                                {/* <button className='text-white'>. . .</button> */}
-                                <button className='text-white transition-all ease-in opacity-0 group-hover:opacity-100'>edit</button>
+                                <DraggableDialogComponent open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} name={name} />
                             </div>
                         </div>
                     </div>
@@ -39,7 +51,7 @@ const Column = ({ index, content, draggableId, name }: any) => {
                     </Droppable>
                 </div>
             )}
-        </Draggable>
+        </BeautifulDraggable>
     );
 };
 
