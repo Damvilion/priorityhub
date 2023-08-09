@@ -8,6 +8,7 @@ import { setUser } from './redux/user';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Board from './components/Board';
+import './globals.css';
 
 export default function Home() {
     const dispatch = useDispatch();
