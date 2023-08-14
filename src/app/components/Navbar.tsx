@@ -20,7 +20,7 @@ const Navbar = () => {
     return (
         <nav className='flex justify-between p-5 text-black items-center relative'>
             <div className='absolute h-[300px] w-[80%] gradient-01 opacity-20 z-0' />
-            <a href='/'>
+            <a href='/' className='relative z-1'>
                 <h1 className='font-bold text-xl text-white'>Priority Hub</h1>
             </a>
             <div className='flex gap-1 items-center'>

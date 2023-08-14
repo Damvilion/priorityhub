@@ -8,11 +8,6 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 import AddButton from './AddButton';
 
-type Item = {
-    columnName: string;
-    content: string[];
-};
-
 function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
     console.log(currentUser);
