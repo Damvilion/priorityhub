@@ -10,6 +10,6 @@ type DocumentEntry = {
 
 type Content = {
     Title: string;
-    Content: string;
+    Body: string;
     imgUrl?: string;
 };
