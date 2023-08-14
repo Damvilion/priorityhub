@@ -5,7 +5,7 @@ type Item = {
 
 type DocumentEntry = {
     columnName: string;
-    content: Content[];
+    content: Content;
 };
 
 type Content = {
