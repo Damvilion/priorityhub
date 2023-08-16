@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper, { PaperProps } from '@mui/material/Paper';
 import Draggable from 'react-draggable';
 import { DialogContent } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/redux/store';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../../../firebase-config';
 
 function PaperComponent(props: PaperProps) {
     return (
@@ -13,8 +17,63 @@ function PaperComponent(props: PaperProps) {
     );
 }
 
-const DraggableColumnComponent = () => {
+const DraggableColumnComponent = ({ entries, setEntries }: any) => {
+    const columnsEntries = Object.keys(entries);
+    const { currentUser } = useSelector((state: RootState) => state.user);
+
     const [openColumn, setOpenColumn] = useState(false);
+    const [input, setInput] = useState('');
+    const [exists, setExists] = useState(false);
+
+    const updateBoardData = async () => {
+        if (currentUser) {
+            const dataRef = doc(db, 'users', currentUser.uid);
+            await updateDoc(dataRef, {
+                data: [...entries],
+            });
+        }
+    };
+
+    const updateLocalStorage = () => {
+        if (!currentUser) localStorage.setItem('board', JSON.stringify(entries));
+    };
+
+    const doesExist = () => {
+        const columns = [...entries];
+        for (let i = 0; i < columns.length; i++) {
+            console.log(columns[i].columnName);
+            const name = columns[i].columnName;
+            if (name === input) {
+                window.alert('Column already exists');
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    const addEntry = (e: React.FormEvent) => {
+        e.preventDefault();
+        doesExist();
+        console.log(exists);
+        if (doesExist()) {
+            return;
+        } else {
+            const every = [...entries];
+            const newBlock: Item = {
+                columnName: input,
+                content: [],
+            };
+            every.unshift(newBlock);
+            setEntries(every);
+            setInput('');
+            setOpenColumn((prev) => !prev);
+            updateLocalStorage();
+            updateBoardData();
+            setExists(false);
+        }
+    };
+
     return (
         <div className=''>
             <button onClick={() => setOpenColumn((prev) => !prev)}>
@@ -30,7 +89,15 @@ const DraggableColumnComponent = () => {
                     <span>Add Column</span>
 
                     <div className='p-5'>
-                        <input className='text-center p-2' type='text' placeholder='Add Column...' />
+                        <form action='' onSubmit={addEntry}>
+                            <input
+                                className='text-center p-2'
+                                type='text'
+                                placeholder='Add Column...'
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                            />
+                        </form>
                     </div>
                 </DialogTitle>
             </Dialog>

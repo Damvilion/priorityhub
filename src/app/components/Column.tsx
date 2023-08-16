@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Draggable from 'react-draggable';
 import { Draggable as BeautifulDraggable, Droppable } from 'react-beautiful-dnd';
 import Card from './Card';
 import DraggableDialogComponent from './draggables/DraggableDialogComponent';
-const Column = ({ index, content, draggableId, name }: any) => {
+import DraggableAddNewComponent from './draggables/DraggableAddNewComponent';
+const Column = ({ index, content, draggableId, name, entries, setEntries }: any) => {
     const addItems = () => {};
 
     const [open, setOpen] = useState(false);
@@ -32,20 +32,18 @@ const Column = ({ index, content, draggableId, name }: any) => {
                         </div>
                     </div>
                     <Droppable droppableId={name}>
-                        {(provided) => (
+                        {(provided, Snapshot) => (
                             <div
-                                className='shadow-md border border-solid w-[95%] p-5 mx-auto mb-5'
+                                className={`${
+                                    Snapshot.draggingOverWith ? 'bg-pink-900 transition-all ease-in' : ''
+                                } shadow-md border border-solid w-[95%] p-5 mx-auto mb-5`}
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}>
                                 {content.map((item: any, index: React.Key | null | undefined) => (
                                     <Card index={index} text={item} key={`${item + index}`} draggableId={`${item + index}`} />
                                 ))}
                                 {provided.placeholder}
-                                <button
-                                    className='rounded-md w-full mx-auto text-[#aaa9a6] text-center p-5 m-2 flex hover:bg-[#dfdedd] transition-all ease-in'
-                                    onClick={addItems}>
-                                    Add new
-                                </button>
+                                <DraggableAddNewComponent entries={entries} setEntries={setEntries} />
                             </div>
                         )}
                     </Droppable>

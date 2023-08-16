@@ -10,7 +10,7 @@ import AddButton from './AddButton';
 
 function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
-    console.log(currentUser);
+    // console.log(currentUser);
     const [entries, setEntries] = useState<Item[]>([]);
 
     const getEntries = async () => {
@@ -111,7 +111,7 @@ function Board(): React.JSX.Element {
 
     return (
         <div className='flex flex-col p-1'>
-            <AddButton />
+            <AddButton entries={entries} setEntries={setEntries} />
             <div className='flex overflow-x-auto z-50 items-center relative'>
                 <DragDropContext onDragEnd={handleDrag}>
                     <Droppable droppableId='board' direction='horizontal' type='column'>
@@ -125,6 +125,8 @@ function Board(): React.JSX.Element {
                                         item={item}
                                         content={item.content}
                                         draggableId={item.columnName}
+                                        entries={entries}
+                                        setEntries={setEntries}
                                     />
                                 ))}
                                 {provided.placeholder}
