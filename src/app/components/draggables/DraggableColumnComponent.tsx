@@ -18,12 +18,10 @@ function PaperComponent(props: PaperProps) {
 }
 
 const DraggableColumnComponent = ({ entries, setEntries }: any) => {
-    const columnsEntries = Object.keys(entries);
     const { currentUser } = useSelector((state: RootState) => state.user);
 
     const [openColumn, setOpenColumn] = useState(false);
     const [input, setInput] = useState('');
-    const [exists, setExists] = useState(false);
 
     const updateBoardData = async () => {
         if (currentUser) {
@@ -68,7 +66,6 @@ const DraggableColumnComponent = ({ entries, setEntries }: any) => {
             setOpenColumn((prev) => !prev);
             updateLocalStorage();
             updateBoardData();
-            setExists(false);
         }
     };
 

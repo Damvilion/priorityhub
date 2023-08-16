@@ -84,5 +84,5 @@ body {
 .MuiPaper-root {
     /* background-color: ; */
     /* background-image: linear-gradient(to right, #d94db3, #800080); */
-    background-color: blueviolet;
+    background-color: blueviolet !important;
 }
