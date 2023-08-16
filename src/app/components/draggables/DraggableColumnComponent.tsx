@@ -54,8 +54,6 @@ const DraggableColumnComponent = ({ entries, setEntries }: any) => {
 
     const addEntry = (e: React.FormEvent) => {
         e.preventDefault();
-        doesExist();
-        console.log(exists);
         if (doesExist()) {
             return;
         } else {
