@@ -1,6 +1,6 @@
 'use client';
-import React, { FormEvent, FormEventHandler, useRef, useState } from 'react';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import React, { FormEvent, FormEventHandler, useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../firebase-config';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/redux/store';

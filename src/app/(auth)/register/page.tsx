@@ -1,11 +1,8 @@
 'use client';
 import React, { FormEvent, FormEventHandler, useRef, useState } from 'react';
-import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../../../../firebase-config';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@/app/redux/store';
 import { useRouter } from 'next/navigation';
-import { setUser } from '@/app/redux/user';
 import Link from 'next/link';
 import { doc, setDoc } from 'firebase/firestore';
 

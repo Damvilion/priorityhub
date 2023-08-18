@@ -3,7 +3,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper, { PaperProps } from '@mui/material/Paper';
 import Draggable from 'react-draggable';
-import { DialogContent } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/redux/store';
 import { doc, updateDoc } from 'firebase/firestore';
