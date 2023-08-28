@@ -12,7 +12,7 @@ function PaperCardComponent(props: PaperProps) {
     );
 }
 
-const DraggableCardComponent = ({ text, Snapshot }: any) => {
+const DraggableCardComponent = ({ title, body, imgUrl, Snapshot }: any) => {
     const [openCard, setOpenCard] = useState(false);
     return (
         <div
@@ -22,15 +22,17 @@ const DraggableCardComponent = ({ text, Snapshot }: any) => {
             // onClick={() => setOpenCard((prev: boolean) => !prev)}
         >
             <button className='text-white hover:text-purple-600' onClick={() => setOpenCard((prev: boolean) => !prev)}>
-                {text}
+                {title}
             </button>
+            {imgUrl && <img src={`${imgUrl}`}></img>}
             <Dialog
                 open={openCard}
                 onClose={() => setOpenCard((prev: boolean) => !prev)}
                 PaperComponent={PaperCardComponent}
                 aria-labelledby='draggable-card-title'>
                 <DialogTitle className='text-black text-center flex flex-col' style={{ cursor: 'move' }} id='draggable-card-title'>
-                    {text}
+                    {title}
+                    <p>{body}</p>
                     <div className='p-5'>
                         <input className='text-center p-2' type='text' placeholder='change the name' />
                     </div>
