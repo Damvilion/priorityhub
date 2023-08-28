@@ -4,8 +4,6 @@ import Card from './Card';
 import DraggableDialogComponent from './draggables/DraggableDialogComponent';
 import DraggableAddNewComponent from './draggables/DraggableAddNewComponent';
 const Column = ({ index, content, draggableId, name, entries, setEntries }: any) => {
-    const addItems = () => {};
-
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -27,7 +25,14 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
                         <div className='flex justify-between items-center gap-1'>
                             <p className='text-white'>{name}</p>
                             <div className='flex items-center gap-3'>
-                                <DraggableDialogComponent open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} name={name} />
+                                <DraggableDialogComponent
+                                    open={open}
+                                    handleClickOpen={handleClickOpen}
+                                    handleClose={handleClose}
+                                    name={name}
+                                    entries={entries}
+                                    setEntries={setEntries}
+                                />
                             </div>
                         </div>
                     </div>

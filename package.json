@@ -28,12 +28,14 @@
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
     "react-draggable": "^4.4.5",
+    "react-edit-text": "^5.1.1",
     "react-firebase-hooks": "^5.1.1",
     "react-redux": "^8.1.1",
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@types/react-beautiful-dnd": "^13.1.4"
+    "@types/react-beautiful-dnd": "^13.1.4",
+    "@types/react-edit-text": "^5.0.1"
   }
 }
