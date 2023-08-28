@@ -11,7 +11,7 @@ import AddButton from './AddButton';
 function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
     // console.log(currentUser);
-    const [entries, setEntries] = useState<Item[]>([]);
+    const [entries, setEntries] = useState<DocumentEntry[]>([]);
 
     const getEntries = async () => {
         if (currentUser) {
@@ -75,10 +75,10 @@ function Board(): React.JSX.Element {
 
         if (type === 'DEFAULT' && !currentUser) {
             const every = entries;
-            every.map((item: Item) => {
+            every.map((item: DocumentEntry) => {
                 if (source.droppableId === item.columnName) {
                     const newData = item.content.splice(source.index, 1);
-                    every.map((item: Item) => {
+                    every.map((item: DocumentEntry) => {
                         if (destination.droppableId === item.columnName) {
                             item.content.splice(destination.index, 0, newData[0]);
                         }
@@ -90,11 +90,11 @@ function Board(): React.JSX.Element {
             });
         } else if (type === 'DEFAULT' && currentUser) {
             const every = entries;
-            every.map((item: Item) => {
+            every.map((item: DocumentEntry) => {
                 if (source.droppableId === item.columnName) {
                     const newData = item.content.splice(source.index, 1);
 
-                    every.map((item: Item) => {
+                    every.map((item: DocumentEntry) => {
                         if (destination.droppableId === item.columnName) {
                             item.content.splice(destination.index, 0, newData[0]);
                         }
@@ -117,7 +117,7 @@ function Board(): React.JSX.Element {
                     <Droppable droppableId='board' direction='horizontal' type='column'>
                         {(provided) => (
                             <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
-                                {entries.map((item: Item, index: number) => (
+                                {entries.map((item: DocumentEntry, index: number) => (
                                     <Column
                                         key={item.columnName}
                                         index={index}

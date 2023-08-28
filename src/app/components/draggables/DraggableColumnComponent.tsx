@@ -55,7 +55,7 @@ const DraggableColumnComponent = ({ entries, setEntries }: any) => {
             return;
         } else {
             const every = [...entries];
-            const newBlock: Item = {
+            const newBlock: DocumentEntry = {
                 columnName: input,
                 content: [],
             };

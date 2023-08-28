@@ -13,7 +13,7 @@
 //     },
 // ];
 
-export const MockData = [
+export const MockData: DocumentEntry[] = [
     {
         columnName: 'todo',
         content: [
