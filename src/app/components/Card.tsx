@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import DraggableCardComponent from './draggables/DraggableCardComponent';
 
-const Card = ({ text, index, draggableId }: any) => {
+const Card = ({ title, body, imgUrl, index, draggableId }: any) => {
     return (
         <Draggable draggableId={draggableId} index={index}>
             {(provided, Snapshot) => (
                 <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className='flex flex-col items-center'>
-                    <DraggableCardComponent text={text} Snapshot={Snapshot} />
+                    <DraggableCardComponent title={title} body={body} imgUrl={imgUrl} Snapshot={Snapshot} />
                 </div>
             )}
         </Draggable>

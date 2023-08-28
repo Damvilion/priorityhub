@@ -5,11 +5,11 @@ type Item = {
 
 type DocumentEntry = {
     columnName: string;
-    content: Content;
+    content: Content[];
 };
 
 type Content = {
     Title: string;
     Body: string;
-    imgUrl?: string;
+    imgUrl?: string | null;
 };

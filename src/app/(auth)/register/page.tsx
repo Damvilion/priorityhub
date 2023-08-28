@@ -5,6 +5,7 @@ import { auth, db } from '../../../../firebase-config';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { doc, setDoc } from 'firebase/firestore';
+import { MockData } from '@/app/lib/mockData/MockData';
 
 const Register = () => {
     const router = useRouter();
@@ -18,20 +19,7 @@ const Register = () => {
             await setDoc(doc(db, 'users', res.user.uid), {
                 uid: res.user.uid,
                 email: signUpEmail,
-                data: [
-                    {
-                        columnName: 'todo',
-                        content: ['content number 1'],
-                    },
-                    {
-                        columnName: 'in progress',
-                        content: ['content number 2'],
-                    },
-                    {
-                        columnName: 'done',
-                        content: ['filler content'],
-                    },
-                ],
+                data: MockData,
             });
             router.push('/login');
         } catch (error) {

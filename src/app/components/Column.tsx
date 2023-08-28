@@ -39,8 +39,15 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
                                 } shadow-md border border-solid w-[95%] p-5 mx-auto mb-5`}
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}>
-                                {content.map((item: any, index: React.Key | null | undefined) => (
-                                    <Card index={index} text={item} key={`${item + index}`} draggableId={`${item + index}`} />
+                                {content.map((item: Content, index: number) => (
+                                    <Card
+                                        index={index}
+                                        title={item.Title}
+                                        body={item.Body}
+                                        imgUrl={item.imgUrl}
+                                        key={item.Title}
+                                        draggableId={item.Title}
+                                    />
                                 ))}
                                 {provided.placeholder}
                                 <DraggableAddNewComponent entries={entries} setEntries={setEntries} />
