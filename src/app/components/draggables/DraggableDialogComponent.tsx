@@ -39,6 +39,11 @@ const DraggableDialogComponent = ({ open, handleClose, handleClickOpen, name, en
         }
     };
 
+    useEffect(() => {
+        updateBoardData();
+        updateLocalStorage();
+    }, [entries]);
+
     const updateState = (changedState: React.SetStateAction<DocumentEntry[]>) => {
         setEntries(changedState);
         console.log(changedState);
@@ -56,8 +61,6 @@ const DraggableDialogComponent = ({ open, handleClose, handleClickOpen, name, en
         });
 
         updateState(dataEntry);
-        updateLocalStorage();
-        updateBoardData();
     };
 
     return (

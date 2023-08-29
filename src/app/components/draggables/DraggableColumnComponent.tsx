@@ -22,19 +22,6 @@ const DraggableColumnComponent = ({ entries, setEntries }: any) => {
     const [openColumn, setOpenColumn] = useState(false);
     const [input, setInput] = useState('');
 
-    const updateBoardData = async () => {
-        if (currentUser) {
-            const dataRef = doc(db, 'users', currentUser.uid);
-            await updateDoc(dataRef, {
-                data: [...entries],
-            });
-        }
-    };
-
-    const updateLocalStorage = () => {
-        if (!currentUser) localStorage.setItem('board', JSON.stringify(entries));
-    };
-
     const doesExist = () => {
         const columns = [...entries];
         for (let i = 0; i < columns.length; i++) {
@@ -63,8 +50,6 @@ const DraggableColumnComponent = ({ entries, setEntries }: any) => {
             setEntries(every);
             setInput('');
             setOpenColumn((prev) => !prev);
-            updateLocalStorage();
-            updateBoardData();
         }
     };
 

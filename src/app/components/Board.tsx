@@ -38,11 +38,6 @@ function Board(): React.JSX.Element {
         }
     };
 
-    useEffect(() => {
-        getEntries();
-        renderMockData();
-    }, [currentUser]);
-
     const updateBoardData = async () => {
         if (currentUser) {
             const dataRef = doc(db, 'users', currentUser.uid);
@@ -55,6 +50,11 @@ function Board(): React.JSX.Element {
     const updateLocalStorage = () => {
         if (!currentUser) localStorage.setItem('board', JSON.stringify(entries));
     };
+
+    useEffect(() => {
+        getEntries();
+        renderMockData();
+    }, [currentUser]);
 
     const handleDrag = (result: DropResult) => {
         const { destination, source, type } = result;
