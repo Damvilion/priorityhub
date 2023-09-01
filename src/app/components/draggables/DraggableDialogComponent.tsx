@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/app/redux/store';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase-config';
+import { useDispatch } from 'react-redux';
+import { setBoard } from '@/app/redux/boardState';
 
 function PaperComponent(props: PaperProps) {
     return (
@@ -26,32 +28,17 @@ interface draggableComponentProps {
 }
 
 const DraggableDialogComponent = ({ open, handleClose, handleClickOpen, name, entries, setEntries }: draggableComponentProps) => {
-    const { currentUser } = useSelector((state: RootState) => state.user);
-    const updateLocalStorage = () => {
-        if (!currentUser) localStorage.setItem('board', JSON.stringify(entries));
-    };
-    const updateBoardData = async () => {
-        if (currentUser) {
-            const dataRef = doc(db, 'users', currentUser.uid);
-            await updateDoc(dataRef, {
-                data: [...entries],
-            });
-        }
-    };
-
-    useEffect(() => {
-        updateBoardData();
-        updateLocalStorage();
-    }, [entries]);
+    const { board } = useSelector((state: RootState) => state.board);
+    const dispatch = useDispatch();
 
     const updateState = (changedState: React.SetStateAction<DocumentEntry[]>) => {
-        setEntries(changedState);
+        dispatch(setBoard(changedState));
         console.log(changedState);
         console.log(setEntries);
     };
 
     const handleDelete = () => {
-        const dataEntry: DocumentEntry[] = [...entries];
+        const dataEntry: DocumentEntry[] = [...board];
         dataEntry.map((item, index) => {
             if (item.columnName === name) {
                 dataEntry.splice(index, 1);

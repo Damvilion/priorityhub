@@ -1,10 +1,10 @@
 import React from 'react';
 import DraggableColumnComponent from './draggables/DraggableColumnComponent';
 
-const AddButton = ({ entries, setEntries }: any) => {
+const AddButton = () => {
     return (
         <div className='flex justify-center mb-2'>
-            <DraggableColumnComponent entries={entries} setEntries={setEntries} />
+            <DraggableColumnComponent />
         </div>
     );
 };

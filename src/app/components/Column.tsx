@@ -1,9 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Draggable as BeautifulDraggable, Droppable } from 'react-beautiful-dnd';
 import Card from './Card';
 import DraggableDialogComponent from './draggables/DraggableDialogComponent';
 import DraggableAddNewComponent from './draggables/DraggableAddNewComponent';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../../firebase-config';
+
 const Column = ({ index, content, draggableId, name, entries, setEntries }: any) => {
+    const { board } = useSelector((state: RootState) => state.board);
+
+    const { currentUser } = useSelector((state: RootState) => state.user);
+    const updateLocalStorage = () => {
+        if (!currentUser) localStorage.setItem('board', JSON.stringify(board));
+    };
+    const updateBoardData = async () => {
+        if (currentUser) {
+            const dataRef = doc(db, 'users', currentUser.uid);
+            await updateDoc(dataRef, {
+                data: [...entries],
+            });
+        }
+    };
+
+    useEffect(() => {
+        updateBoardData();
+        updateLocalStorage();
+    }, [board]);
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {

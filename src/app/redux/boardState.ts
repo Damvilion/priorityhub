@@ -2,18 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface BoardState {
-    board: any;
+    board: DocumentEntry[];
 }
 
 const initialState: BoardState = {
-    board: null,
+    board: [],
 };
 
 export const board = createSlice({
     name: 'board',
     initialState,
     reducers: {
-        getBoard: (state, action: PayloadAction<any>) => {
+        setBoard: (state, action: PayloadAction<any>) => {
             state.board = action.payload;
             // await getDataByColumn();
         },
@@ -21,6 +21,6 @@ export const board = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { getBoard } = board.actions;
+export const { setBoard } = board.actions;
 
 export default board.reducer;

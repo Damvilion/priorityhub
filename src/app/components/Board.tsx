@@ -7,11 +7,14 @@ import { MockData } from '../lib/mockData/MockData';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 import AddButton from './AddButton';
+import { useDispatch } from 'react-redux';
+import { setBoard } from '../redux/boardState';
 
 function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
-    // console.log(currentUser);
-    const [entries, setEntries] = useState<DocumentEntry[]>([]);
+    const { board } = useSelector((state: RootState) => state.board);
+    console.log(board);
+    const dispatch = useDispatch();
 
     const getEntries = async () => {
         if (currentUser) {
@@ -20,7 +23,7 @@ function Board(): React.JSX.Element {
             if (docSnap.exists()) {
                 const customerData = docSnap.data();
                 const data = customerData['data'];
-                setEntries(data);
+                dispatch(setBoard(data));
             }
         }
     };
@@ -29,11 +32,11 @@ function Board(): React.JSX.Element {
         if (currentUser === null) {
             const storage = localStorage.getItem('board');
             if (storage) {
-                setEntries(JSON.parse(storage));
+                dispatch(setBoard(JSON.parse(storage)));
             } else {
                 localStorage.setItem('board', JSON.stringify(MockData));
                 const storage = localStorage.getItem('board');
-                setEntries(JSON.parse(storage!));
+                dispatch(setBoard(JSON.parse(storage!)));
             }
         }
     };
@@ -42,13 +45,13 @@ function Board(): React.JSX.Element {
         if (currentUser) {
             const dataRef = doc(db, 'users', currentUser.uid);
             await updateDoc(dataRef, {
-                data: [...entries],
+                data: [...board],
             });
         }
     };
 
     const updateLocalStorage = () => {
-        if (!currentUser) localStorage.setItem('board', JSON.stringify(entries));
+        if (!currentUser) localStorage.setItem('board', JSON.stringify(board));
     };
 
     useEffect(() => {
@@ -62,44 +65,44 @@ function Board(): React.JSX.Element {
         if (!destination) return;
 
         if (type === 'column' && currentUser) {
-            const every = entries;
-            let temp = every.splice(source.index, 1)[0];
-            every.splice(destination.index, 0, temp);
-            setEntries(every);
+            const boardCopy = [...board];
+            let temp = boardCopy.splice(source.index, 1)[0];
+            boardCopy.splice(destination.index, 0, temp);
+            dispatch(setBoard(boardCopy));
         } else if (type === 'column' && !currentUser) {
-            const every = entries;
-            let temp = every.splice(source.index, 1)[0];
-            every.splice(destination.index, 0, temp);
-            setEntries(every);
+            const boardCopy = [...board];
+            let temp = boardCopy.splice(source.index, 1)[0];
+            boardCopy.splice(destination.index, 0, temp);
+            dispatch(setBoard(boardCopy));
         }
 
         if (type === 'DEFAULT' && !currentUser) {
-            const every = entries;
-            every.map((item: DocumentEntry) => {
+            const boardCopy = JSON.parse(JSON.stringify(board));
+            boardCopy.map((item: DocumentEntry) => {
                 if (source.droppableId === item.columnName) {
                     const newData = item.content.splice(source.index, 1);
-                    every.map((item: DocumentEntry) => {
+                    boardCopy.map((item: DocumentEntry) => {
                         if (destination.droppableId === item.columnName) {
                             item.content.splice(destination.index, 0, newData[0]);
                         }
                     });
-                    setEntries(every);
+                    dispatch(setBoard(boardCopy));
                 } else {
                     return item;
                 }
             });
         } else if (type === 'DEFAULT' && currentUser) {
-            const every = entries;
-            every.map((item: DocumentEntry) => {
+            const boardCopy = JSON.parse(JSON.stringify(board));
+            boardCopy.map((item: DocumentEntry) => {
                 if (source.droppableId === item.columnName) {
                     const newData = item.content.splice(source.index, 1);
 
-                    every.map((item: DocumentEntry) => {
+                    boardCopy.map((item: DocumentEntry) => {
                         if (destination.droppableId === item.columnName) {
                             item.content.splice(destination.index, 0, newData[0]);
                         }
                     });
-                    setEntries(every);
+                    dispatch(setBoard(boardCopy));
                 } else {
                     return item;
                 }
@@ -111,13 +114,13 @@ function Board(): React.JSX.Element {
 
     return (
         <div className='flex flex-col p-1'>
-            <AddButton entries={entries} setEntries={setEntries} />
+            <AddButton />
             <div className='flex overflow-x-auto z-50 items-center relative'>
                 <DragDropContext onDragEnd={handleDrag}>
                     <Droppable droppableId='board' direction='horizontal' type='column'>
                         {(provided) => (
                             <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
-                                {entries.map((item: DocumentEntry, index: number) => (
+                                {board.map((item: DocumentEntry, index: number) => (
                                     <Column
                                         key={item.columnName}
                                         index={index}
@@ -125,8 +128,6 @@ function Board(): React.JSX.Element {
                                         item={item}
                                         content={item.content}
                                         draggableId={item.columnName}
-                                        entries={entries}
-                                        setEntries={setEntries}
                                     />
                                 ))}
                                 {provided.placeholder}

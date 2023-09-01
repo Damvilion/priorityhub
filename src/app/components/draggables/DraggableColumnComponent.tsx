@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/app/redux/store';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase-config';
+import { setBoard } from '@/app/redux/boardState';
+import { useDispatch } from 'react-redux';
 
 function PaperComponent(props: PaperProps) {
     return (
@@ -16,14 +18,16 @@ function PaperComponent(props: PaperProps) {
     );
 }
 
-const DraggableColumnComponent = ({ entries, setEntries }: any) => {
-    const { currentUser } = useSelector((state: RootState) => state.user);
+const DraggableColumnComponent = () => {
+    // const { currentUser } = useSelector((state: RootState) => state.user);
+    const { board } = useSelector((state: RootState) => state.board);
+    const dispatch = useDispatch();
 
     const [openColumn, setOpenColumn] = useState(false);
     const [input, setInput] = useState('');
 
     const doesExist = () => {
-        const columns = [...entries];
+        const columns = [...board];
         for (let i = 0; i < columns.length; i++) {
             console.log(columns[i].columnName);
             const name = columns[i].columnName;
@@ -41,13 +45,13 @@ const DraggableColumnComponent = ({ entries, setEntries }: any) => {
         if (doesExist()) {
             return;
         } else {
-            const every = [...entries];
+            const every = [...board];
             const newBlock: DocumentEntry = {
                 columnName: input,
                 content: [],
             };
             every.unshift(newBlock);
-            setEntries(every);
+            dispatch(setBoard(every));
             setInput('');
             setOpenColumn((prev) => !prev);
         }
