@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Draggable as BeautifulDraggable, Droppable } from 'react-beautiful-dnd';
 import Card from './Card';
-import DraggableDialogComponent from './draggables/DraggableDialogComponent';
 import DraggableAddNewComponent from './draggables/DraggableAddNewComponent';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
+import ColumnEditSheet from './sheetComponents/ColumnEditSheet';
 
 const Column = ({ index, content, draggableId, name, entries, setEntries }: any) => {
     const { board } = useSelector((state: RootState) => state.board);
@@ -49,14 +49,8 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
                         <div className='flex justify-between items-center gap-1'>
                             <p className='text-white'>{name}</p>
                             <div className='flex items-center gap-3'>
-                                <DraggableDialogComponent
-                                    open={open}
-                                    handleClickOpen={handleClickOpen}
-                                    handleClose={handleClose}
-                                    name={name}
-                                    entries={entries}
-                                    setEntries={setEntries}
-                                />
+                                {/* <DraggableDialogComponent open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} name={name} /> */}
+                                <ColumnEditSheet />
                             </div>
                         </div>
                     </div>
@@ -79,7 +73,7 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
                                     />
                                 ))}
                                 {provided.placeholder}
-                                <DraggableAddNewComponent entries={entries} setEntries={setEntries} />
+                                <DraggableAddNewComponent />
                             </div>
                         )}
                     </Droppable>
