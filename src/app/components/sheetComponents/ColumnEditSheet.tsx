@@ -9,9 +9,7 @@ const ColumnEditSheet = () => {
                 <SheetContent className='bg-purple-700 border-none'>
                     <SheetHeader className=''>
                         <SheetTitle>Are you sure absolutely sure?</SheetTitle>
-                        <SheetDescription>
-                            This action cannot be undone. This will permanently delete your account and remove your data from our servers.
-                        </SheetDescription>
+                        <SheetDescription className='text-white'>Blah Blah Blah</SheetDescription>
                     </SheetHeader>
                 </SheetContent>
             </Sheet>

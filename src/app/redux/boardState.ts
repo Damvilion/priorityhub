@@ -15,7 +15,6 @@ export const board = createSlice({
     reducers: {
         setBoard: (state, action: PayloadAction<any>) => {
             state.board = action.payload;
-            // await getDataByColumn();
         },
     },
 });
