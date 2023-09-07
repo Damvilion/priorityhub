@@ -23,18 +23,14 @@ interface draggableComponentProps {
     handleClose: () => void;
     handleClickOpen: () => void;
     name: string;
-    entries: DocumentEntry[];
-    setEntries: React.Dispatch<React.SetStateAction<DocumentEntry[]>>;
 }
 
-const DraggableDialogComponent = ({ open, handleClose, handleClickOpen, name, entries, setEntries }: draggableComponentProps) => {
+const DraggableDialogComponent = ({ open, handleClose, handleClickOpen, name }: draggableComponentProps) => {
     const { board } = useSelector((state: RootState) => state.board);
     const dispatch = useDispatch();
 
     const updateState = (changedState: React.SetStateAction<DocumentEntry[]>) => {
         dispatch(setBoard(changedState));
-        console.log(changedState);
-        console.log(setEntries);
     };
 
     const handleDelete = () => {

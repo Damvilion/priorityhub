@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import currentUser from './user';
 import board from './boardState';
+import modalState from './modalState';
 
 export const store = configureStore({
     reducer: {
         user: currentUser,
         board: board,
+        modalState: modalState,
     },
 });
 

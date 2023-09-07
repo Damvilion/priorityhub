@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 import { auth } from '../../firebase-config';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { setUser } from './redux/user';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Board from './components/Board';
 import './globals.css';
+import { Context, ModalContext, UpdateModalContext } from './useContext/Context';
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -29,12 +30,14 @@ export default function Home() {
     }, []);
 
     return (
-        <main className='bg-black text-black relative'>
-            <div className='absoultePositioning h-[300px] w-[80%] gradient-02 opacity-80 z-1' />
-            <Navbar />
-            <main className='h-screen relative z-50'>
-                <Board />
+        <Context>
+            <main className='bg-black text-black relative'>
+                <div className='absoultePositioning h-[300px] w-[80%] gradient-02 opacity-80 z-1' />
+                <Navbar />
+                <main className='h-screen relative z-50'>
+                    <Board />
+                </main>
             </main>
-        </main>
+        </Context>
     );
 }

@@ -12,7 +12,7 @@ function PaperCardComponent(props: PaperProps) {
     );
 }
 
-const DraggableAddNewComponent = ({ entries, setEntries }: any) => {
+const DraggableAddNewComponent = () => {
     const [openCard, setOpenCard] = useState(false);
 
     return (
