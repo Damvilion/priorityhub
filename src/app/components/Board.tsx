@@ -9,7 +9,6 @@ import { db } from '../../../firebase-config';
 import AddButton from './AddButton';
 import { useDispatch } from 'react-redux';
 import { setBoard } from '../redux/boardState';
-import AddButtonSheet from './sheetComponents/AddButtonSheet';
 
 function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
@@ -115,7 +114,7 @@ function Board(): React.JSX.Element {
 
     return (
         <div className='flex flex-col p-1'>
-            <AddButtonSheet />
+            {/* <AddButtonSheet /> */}
             {/* <AddButton /> */}
             <div className='flex overflow-x-auto z-50 items-center relative'>
                 <DragDropContext onDragEnd={handleDrag}>
