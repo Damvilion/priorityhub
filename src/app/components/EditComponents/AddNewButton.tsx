@@ -3,6 +3,7 @@ import { EditText } from 'react-edit-text';
 
 const AddNewButton = () => {
     return (
+        // text
         <div className='mt-2'>
             <EditText
                 style={{
