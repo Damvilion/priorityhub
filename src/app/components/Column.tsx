@@ -16,7 +16,7 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
     const { board } = useSelector((state: RootState) => state.board);
     const { currentUser } = useSelector((state: RootState) => state.user);
 
-    const updateModal = useContext(UpdateModalContext);
+    // const updateModal = useContext(UpdateModalContext);
 
     const updateLocalStorage = () => {
         if (!currentUser) localStorage.setItem('board', JSON.stringify(board));
