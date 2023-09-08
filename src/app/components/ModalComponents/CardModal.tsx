@@ -15,6 +15,7 @@ const CardModal = ({ title, Snapshot, body }: any) => {
 
     const [titleText, setTitleText] = useState(title);
     const [bodyText, setBodyText] = useState(body);
+    // test
 
     return (
         <div
