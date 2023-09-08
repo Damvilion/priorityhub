@@ -1,22 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Draggable as BeautifulDraggable, Droppable } from 'react-beautiful-dnd';
 import Card from './Card';
-import DraggableAddNewComponent from './draggables/DraggableAddNewComponent';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
-import EditColumnModal from './ModalComponents/EditColumnModal';
-import { UpdateModalContext } from '../useContext/Context';
-import { EditText, EditTextarea } from 'react-edit-text';
+import { EditText } from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
 import AddNewButton from './EditComponents/AddNewButton';
 
 const Column = ({ index, content, draggableId, name, entries, setEntries }: any) => {
     const { board } = useSelector((state: RootState) => state.board);
     const { currentUser } = useSelector((state: RootState) => state.user);
-
-    // const updateModal = useContext(UpdateModalContext);
 
     const updateLocalStorage = () => {
         if (!currentUser) localStorage.setItem('board', JSON.stringify(board));

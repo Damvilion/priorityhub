@@ -1,15 +1,13 @@
 'use client';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/app/redux/store';
-import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 import { auth } from '../../firebase-config';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { setUser } from './redux/user';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Board from './components/Board';
 import './globals.css';
-import { Context, ModalContext, UpdateModalContext } from './useContext/Context';
+import { Context } from './useContext/Context';
 
 export default function Home() {
     const dispatch = useDispatch();
