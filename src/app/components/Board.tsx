@@ -6,14 +6,15 @@ import Column from './Column';
 import { MockData } from '../lib/mockData/MockData';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
-import AddButton from './AddButton';
 import { useDispatch } from 'react-redux';
 import { setBoard } from '../redux/boardState';
+import DraggableAddNewComponent from './draggables/DraggableAddNewComponent';
+import DraggableDialogComponent from './draggables/DraggableDialogComponent';
+import DraggableColumnComponent from './draggables/DraggableColumnComponent';
 
 function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
     const { board } = useSelector((state: RootState) => state.board);
-    console.log(board);
     const dispatch = useDispatch();
 
     const getEntries = async () => {
@@ -114,8 +115,9 @@ function Board(): React.JSX.Element {
 
     return (
         <div className='flex flex-col p-1'>
-            {/* <AddButtonSheet /> */}
-            {/* <AddButton /> */}
+            <div className='flex justify-center'>
+                <DraggableColumnComponent />
+            </div>
             <div className='flex overflow-x-auto z-50 items-center relative'>
                 <DragDropContext onDragEnd={handleDrag}>
                     <Droppable droppableId='board' direction='horizontal' type='column'>

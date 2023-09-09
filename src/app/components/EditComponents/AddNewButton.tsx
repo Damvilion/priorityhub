@@ -1,10 +1,38 @@
-import React from 'react';
+import { setBoard } from '@/app/redux/boardState';
+import { RootState } from '@/app/redux/store';
+import React, { useState } from 'react';
 import { EditText } from 'react-edit-text';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const AddNewButton = () => {
+interface AddNewButtonProps {
+    index: number;
+}
+
+const AddNewButton = ({ index }: AddNewButtonProps) => {
+    const [editMode, setEditMode] = useState(false);
+    const { board } = useSelector((state: RootState) => state.board);
+    const [textValue, setTextValue] = useState('');
+    const dispatch = useDispatch();
+
+    const addItemToBoard = () => {
+        if (!textValue) return;
+        const boardCopy = JSON.parse(JSON.stringify(board));
+
+        const newItem: Content = {
+            Title: textValue,
+            Body: '',
+            imgUrl: null,
+        };
+
+        boardCopy[index].content.push(newItem);
+        dispatch(setBoard(boardCopy));
+        setTextValue('');
+    };
+
     return (
         // text
-        <div className='mt-2 '>
+        <div className='mt-2 flex flex-col text-white'>
             <EditText
                 style={{
                     borderRadius: '0.375rem', // Equivalent to Tailwind's rounded-md
@@ -20,7 +48,19 @@ const AddNewButton = () => {
                 }}
                 className='text-[#aaa9a6] hover:bg-[#dfdedd]  transition-all ease-in'
                 placeholder='Add New'
+                onEditMode={() => setEditMode(true)}
+                onBlur={() => setEditMode(false)}
+                value={textValue}
+                onChange={(e) => setTextValue(e.currentTarget.value)}
+                onSave={addItemToBoard}
             />
+            <div className='flex justify-between'>
+                {editMode && (
+                    <button onClick={addItemToBoard} className='text-white bg-purple-500 rounded-full py-2 px-4 mt-1'>
+                        Add
+                    </button>
+                )}
+            </div>
         </div>
     );
 };

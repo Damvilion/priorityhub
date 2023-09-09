@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Draggable as BeautifulDraggable, Droppable } from 'react-beautiful-dnd';
 import Card from './Card';
 import { useSelector } from 'react-redux';
@@ -8,10 +8,19 @@ import { db } from '../../../firebase-config';
 import { EditText } from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
 import AddNewButton from './EditComponents/AddNewButton';
+import { useDispatch } from 'react-redux';
+import { setBoard } from '../redux/boardState';
 
 const Column = ({ index, content, draggableId, name, entries, setEntries }: any) => {
     const { board } = useSelector((state: RootState) => state.board);
+    const dispatch = useDispatch();
     const { currentUser } = useSelector((state: RootState) => state.user);
+    const [columnName, setColumnName] = useState(name);
+    const handleColumnNameChange = () => {
+        const boardCopy: DocumentEntry[] = JSON.parse(JSON.stringify(board));
+        boardCopy[index].columnName = columnName;
+        dispatch(setBoard(boardCopy));
+    };
 
     const updateLocalStorage = () => {
         if (!currentUser) localStorage.setItem('board', JSON.stringify(board));
@@ -41,7 +50,14 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
                                 Snapshot.draggingOver ? 'opacity-90' : ''
                             } bg-[#80008085] border p-5 m-2 md:w-[400px] w-[200px] group rounded-sm hover:opacity-85`}>
                             <div className='justify-center items-center gap-1'>
-                                <EditText value={name} className='text-white' style={{ width: '100%', background: 'none', color: 'white' }} />
+                                <EditText
+                                    value={columnName}
+                                    className='text-white'
+                                    style={{ width: '100%', background: 'none', color: 'white' }}
+                                    onChange={(e) => setColumnName(e.currentTarget.value)}
+                                    onSave={handleColumnNameChange}
+                                    onBlur={handleColumnNameChange}
+                                />
                             </div>
                         </div>
                         <Droppable droppableId={name}>
@@ -64,7 +80,7 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
                                     ))}
                                     {provided.placeholder}
 
-                                    <AddNewButton />
+                                    <AddNewButton index={index} />
                                 </div>
                             )}
                         </Droppable>
