@@ -8,8 +8,6 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 import { useDispatch } from 'react-redux';
 import { setBoard } from '../redux/boardState';
-import DraggableAddNewComponent from './draggables/DraggableAddNewComponent';
-import DraggableDialogComponent from './draggables/DraggableDialogComponent';
 import DraggableColumnComponent from './draggables/DraggableColumnComponent';
 
 function Board(): React.JSX.Element {

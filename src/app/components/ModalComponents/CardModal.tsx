@@ -2,8 +2,24 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { EditText, EditTextarea } from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/redux/store';
+import { DraggableStateSnapshot } from 'react-beautiful-dnd';
+import { useDispatch } from 'react-redux';
+import { setBoard } from '@/app/redux/boardState';
 
-const CardModal = ({ title, Snapshot, body }: any) => {
+interface CardModalProps {
+    title: string;
+    Snapshot: DraggableStateSnapshot;
+    body: string;
+    columnIndex: number;
+    cardIndex: number;
+}
+
+const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex }: CardModalProps) => {
+    const { board } = useSelector((state: RootState) => state.board);
+    const dispatch = useDispatch();
+
     const [openCard, setOpenCard] = useState(false);
 
     const openModal = () => {
@@ -15,6 +31,21 @@ const CardModal = ({ title, Snapshot, body }: any) => {
 
     const [titleText, setTitleText] = useState(title);
     const [bodyText, setBodyText] = useState(body);
+
+    const handleOffClick = () => {
+        const boardCopy: DocumentEntry[] = JSON.parse(JSON.stringify(board));
+        boardCopy[columnIndex].content[cardIndex].Title = titleText;
+        boardCopy[columnIndex].content[cardIndex].Body = bodyText;
+
+        dispatch(setBoard(boardCopy));
+    };
+
+    const handleDelete = () => {
+        const boardCopy: DocumentEntry[] = JSON.parse(JSON.stringify(board));
+        boardCopy[columnIndex].content.splice(cardIndex, 1);
+        closeModal();
+        dispatch(setBoard(boardCopy));
+    };
     // test
 
     return (
@@ -52,8 +83,16 @@ const CardModal = ({ title, Snapshot, body }: any) => {
                                         fontSize: '1.25rem',
                                         fontWeight: 'bold',
                                     }}
+                                    onBlur={handleOffClick}
+                                    onSave={handleOffClick}
                                 />
-                                <EditTextarea value={bodyText} onChange={(e) => setBodyText(e.target.value)} />
+                                <EditTextarea
+                                    value={bodyText}
+                                    onChange={(e) => setBodyText(e.target.value)}
+                                    onBlur={handleOffClick}
+                                    onSave={handleOffClick}
+                                />
+                                <button onClick={handleDelete}>DELETE</button>
                             </div>
                         </Dialog.Panel>
                     </Transition.Child>
