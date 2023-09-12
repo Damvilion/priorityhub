@@ -13,7 +13,7 @@ const Card = ({ title, body, imgUrl, cardIndex, columnIndex, draggableId }: any)
                     className='flex flex-col items-center
                     '
                     onClick={() => console.log(draggableId)}>
-                    <CardModal title={title} body={body} Snapshot={Snapshot} columnIndex={columnIndex} cardIndex={cardIndex} />
+                    <CardModal title={title} body={body} imgUrl={imgUrl} Snapshot={Snapshot} columnIndex={columnIndex} cardIndex={cardIndex} />
                 </div>
             )}
         </Draggable>

@@ -34,7 +34,7 @@ export default function Home() {
                 <main className='bg-black text-black relative'>
                     <div className='absoultePositioning h-[300px] w-[80%] gradient-02 opacity-80 z-1' />
                     <Navbar />
-                    <main className='h-screen relative z-50'>
+                    <main className='min-h-screen relative z-50'>
                         <Board />
                     </main>
                 </main>

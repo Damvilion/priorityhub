@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { EditText, EditTextarea } from 'react-edit-text';
@@ -15,9 +16,10 @@ interface CardModalProps {
     body: string;
     columnIndex: number;
     cardIndex: number;
+    imgUrl?: string | null;
 }
 
-const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex }: CardModalProps) => {
+const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: CardModalProps) => {
     const { board } = useSelector((state: RootState) => state.board);
     const dispatch = useDispatch();
 
@@ -48,17 +50,22 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex }: CardModalP
         boardCopy[columnIndex].content.splice(cardIndex, 1);
         dispatch(setBoard(boardCopy));
     };
-    // test
+
+    const handleUpload = () => {};
 
     return (
         <div
             className={`${
                 Snapshot.draggingOver ? 'border-purple-500' : 'border-solid'
-            } rounded-md border border-solid w-full text-center m-2 text-white hover:border-purple-400`}>
-            <div onClick={openModal} className='w-full p-5'>
-                {title}
+            } flex flex-col rounded-md border border-solid w-full text-center m-2 text-white hover:border-purple-400 overflow-hidden`}>
+            <div onClick={openModal} className='w-full flex flex-col'>
+                {imgUrl && (
+                    <div className='flex justify-center h-40 w-full overflow-hidden rounded-t-md'>
+                        <img alt='picture' className='w-full h-full' src={`${imgUrl}`}></img>
+                    </div>
+                )}
+                <div className='p-2 my-2'> {title}</div>
             </div>
-
             <Transition
                 appear
                 show={openCard}
@@ -97,7 +104,10 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex }: CardModalP
                                     className='h-1/2 rounded-lg p-2'
                                 />
                                 <div className='text-center'>
-                                    <input type='file'></input>
+                                    <label htmlFor='file' className='cursor-pointer'>
+                                        <p>Upload Image</p>
+                                    </label>
+                                    <input type='file' id='file' className='hidden'></input>
                                 </div>
                                 <div className='flex justify-evenly'>
                                     {/* <button onClick={handleDelete}>DELETE</button> */}

@@ -31,10 +31,7 @@ const AddNewButton = ({ index }: AddNewButtonProps) => {
         dispatch(setBoard(boardCopy));
         setTextValue('');
     };
-    const handleCancle = () => {
-        setTextValue('');
-        setEditMode(false);
-    };
+
     return (
         // text
         <div className='mt-2 flex flex-col text-white'>
@@ -44,8 +41,9 @@ const AddNewButton = ({ index }: AddNewButtonProps) => {
                     width: '100%', // Equivalent to Tailwind's w-full
                     margin: '0 auto', // Equivalent to Tailwind's mx-auto
                     textAlign: 'center', // Equivalent to Tailwind's text-center
-                    padding: '1.25rem', // Equivalent to Tailwind's p-5
+                    padding: '0.75rem', // Equivalent to Tailwind's p-5
                     marginBottom: '0.5rem', // Equivalent to Tailwind's m-2
+                    marginTop: '0.5rem',
                     display: 'flex',
                     transition: 'all 0.3s ease-in', // Equivalent to Tailwind's transition-all ease-in
                     backgroundColor: 'transparent',
