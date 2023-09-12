@@ -97,7 +97,7 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex }: CardModalP
                                     className='h-1/2 rounded-lg p-2'
                                 />
                                 <div className='text-center'>
-                                    <button>upload image</button>
+                                    <input type='file'></input>
                                 </div>
                                 <div className='flex justify-evenly'>
                                     {/* <button onClick={handleDelete}>DELETE</button> */}
