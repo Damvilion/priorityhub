@@ -60,8 +60,8 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
             } flex flex-col rounded-md border border-solid w-full text-center m-2 text-white hover:border-purple-400 overflow-hidden`}>
             <div onClick={openModal} className='w-full flex flex-col'>
                 {imgUrl && (
-                    <div className='flex justify-center h-40 w-full overflow-hidden rounded-t-md'>
-                        <img alt='picture' className='w-full h-full' src={`${imgUrl}`}></img>
+                    <div className='flex justify-center h-40 overflow-hidden rounded-t-md'>
+                        <img alt='picture' className='w-full object-fill' src={`${imgUrl}`}></img>
                     </div>
                 )}
                 <div className='p-2 my-2'> {title}</div>
