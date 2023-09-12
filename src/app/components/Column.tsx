@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Draggable as BeautifulDraggable, Droppable } from 'react-beautiful-dnd';
 import Card from './Card';
 import { useSelector } from 'react-redux';
@@ -10,8 +10,9 @@ import 'react-edit-text/dist/index.css';
 import AddNewButton from './EditComponents/AddNewButton';
 import { useDispatch } from 'react-redux';
 import { setBoard } from '../redux/boardState';
+import ConfirmationModal from './ModalComponents/ConfirmationModal';
 
-const Column = ({ index, content, draggableId, name, entries, setEntries }: any) => {
+const Column = ({ index, content, draggableId, name }: any) => {
     const { board } = useSelector((state: RootState) => state.board);
     const dispatch = useDispatch();
     const { currentUser } = useSelector((state: RootState) => state.user);
@@ -29,7 +30,7 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
         if (currentUser) {
             const dataRef = doc(db, 'users', currentUser.uid);
             await updateDoc(dataRef, {
-                data: [...entries],
+                data: [...board],
             });
         }
     };
@@ -49,7 +50,7 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
                             className={`${
                                 Snapshot.draggingOver ? 'opacity-90' : ''
                             } bg-[#80008085] border p-5 m-2 md:w-[400px] w-[200px] group rounded-sm hover:opacity-85`}>
-                            <div className='justify-center items-center gap-1'>
+                            <div className='flex justify-between items-center gap-1 group transition-all ease-in-out'>
                                 <EditText
                                     value={columnName}
                                     className='text-white'
@@ -58,9 +59,11 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
                                     onSave={handleColumnNameChange}
                                     onBlur={handleColumnNameChange}
                                 />
+
+                                <ConfirmationModal index={index} />
                             </div>
                         </div>
-                        <Droppable droppableId={name}>
+                        <Droppable droppableId={draggableId}>
                             {(provided, Snapshot) => (
                                 <div
                                     className={`${
@@ -68,13 +71,13 @@ const Column = ({ index, content, draggableId, name, entries, setEntries }: any)
                                     } shadow-md border border-solid w-[95%] p-5 mx-auto mb-5`}
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}>
-                                    {content.map((item: Content, cardIndex: number) => (
+                                    {content.map((CardItem: Content, cardIndex: number) => (
                                         <Card
-                                            title={item.Title}
-                                            body={item.Body}
-                                            imgUrl={item.imgUrl}
-                                            key={item.Title}
-                                            draggableId={item.Title}
+                                            title={CardItem.Title}
+                                            body={CardItem.Body}
+                                            imgUrl={CardItem.imgUrl}
+                                            key={CardItem.uuid}
+                                            draggableId={CardItem.uuid}
                                             columnIndex={index}
                                             cardIndex={cardIndex}
                                         />

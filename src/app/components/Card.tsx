@@ -10,14 +10,10 @@ const Card = ({ title, body, imgUrl, cardIndex, columnIndex, draggableId }: any)
                     ref={provided.innerRef}
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
-                    className='flex flex-col items-center'>
-                    <CardModal
-                        title={title}
-                        body={body}
-                        Snapshot={Snapshot}
-                        columnIndex={columnIndex}
-                        cardIndex={cardIndex}
-                    />
+                    className='flex flex-col items-center
+                    '
+                    onClick={() => console.log(draggableId)}>
+                    <CardModal title={title} body={body} Snapshot={Snapshot} columnIndex={columnIndex} cardIndex={cardIndex} />
                 </div>
             )}
         </Draggable>

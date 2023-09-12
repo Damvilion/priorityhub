@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { EditText } from 'react-edit-text';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { uuid } from 'uuidv4';
 
 interface AddNewButtonProps {
     index: number;
@@ -20,6 +21,7 @@ const AddNewButton = ({ index }: AddNewButtonProps) => {
         const boardCopy = JSON.parse(JSON.stringify(board));
 
         const newItem: Content = {
+            uuid: uuid(),
             Title: textValue,
             Body: '',
             imgUrl: null,
@@ -29,7 +31,10 @@ const AddNewButton = ({ index }: AddNewButtonProps) => {
         dispatch(setBoard(boardCopy));
         setTextValue('');
     };
-
+    const handleCancle = () => {
+        setTextValue('');
+        setEditMode(false);
+    };
     return (
         // text
         <div className='mt-2 flex flex-col text-white'>
@@ -54,11 +59,23 @@ const AddNewButton = ({ index }: AddNewButtonProps) => {
                 onChange={(e) => setTextValue(e.currentTarget.value)}
                 onSave={addItemToBoard}
             />
-            <div className='flex justify-between'>
+            <div className=''>
                 {editMode && (
-                    <button onClick={addItemToBoard} className='text-white bg-purple-500 rounded-full py-2 px-4 mt-1'>
-                        Add
-                    </button>
+                    <div className='flex items-center justify-between'>
+                        <button onClick={addItemToBoard} className='text-white bg-purple-500 rounded-full py-2 px-4 mt-1'>
+                            Add
+                        </button>
+                        {/* <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            strokeWidth={1.5}
+                            stroke='currentColor'
+                            className='w-8 h-8 text-white bg-red-700 rounded-full cursor-pointer p-1'
+                            onClick={handleCancle}>
+                            <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
+                        </svg> */}
+                    </div>
                 )}
             </div>
         </div>

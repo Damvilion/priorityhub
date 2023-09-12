@@ -60,6 +60,10 @@ function Board(): React.JSX.Element {
 
     const handleDrag = (result: DropResult) => {
         const { destination, source, type } = result;
+        // console.log('SOURCE');
+        // console.log(source);
+        // console.log('Destination');
+        // console.log(destination);
 
         if (!destination) return;
 
@@ -78,10 +82,10 @@ function Board(): React.JSX.Element {
         if (type === 'DEFAULT' && !currentUser) {
             const boardCopy = JSON.parse(JSON.stringify(board));
             boardCopy.map((item: DocumentEntry) => {
-                if (source.droppableId === item.columnName) {
+                if (source.droppableId === item.uuid) {
                     const newData = item.content.splice(source.index, 1);
                     boardCopy.map((item: DocumentEntry) => {
-                        if (destination.droppableId === item.columnName) {
+                        if (destination.droppableId === item.uuid) {
                             item.content.splice(destination.index, 0, newData[0]);
                         }
                     });
@@ -93,11 +97,11 @@ function Board(): React.JSX.Element {
         } else if (type === 'DEFAULT' && currentUser) {
             const boardCopy = JSON.parse(JSON.stringify(board));
             boardCopy.map((item: DocumentEntry) => {
-                if (source.droppableId === item.columnName) {
+                if (source.droppableId === item.uuid) {
                     const newData = item.content.splice(source.index, 1);
 
                     boardCopy.map((item: DocumentEntry) => {
-                        if (destination.droppableId === item.columnName) {
+                        if (destination.droppableId === item.uuid) {
                             item.content.splice(destination.index, 0, newData[0]);
                         }
                     });
@@ -123,12 +127,12 @@ function Board(): React.JSX.Element {
                             <div className='flex' ref={provided.innerRef} {...provided.droppableProps}>
                                 {board.map((item: DocumentEntry, index: number) => (
                                     <Column
-                                        key={item.columnName}
+                                        key={item.uuid}
                                         index={index}
                                         name={item.columnName}
                                         item={item}
                                         content={item.content}
-                                        draggableId={item.columnName}
+                                        draggableId={item.uuid}
                                     />
                                 ))}
                                 {provided.placeholder}

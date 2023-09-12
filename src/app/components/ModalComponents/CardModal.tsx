@@ -7,6 +7,7 @@ import { RootState } from '@/app/redux/store';
 import { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import { setBoard } from '@/app/redux/boardState';
+import { Button } from '@nextui-org/react';
 
 interface CardModalProps {
     title: string;
@@ -26,6 +27,7 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex }: CardModalP
         setOpenCard(true);
     };
     const closeModal = () => {
+        handleOffClick();
         setOpenCard(false);
     };
 
@@ -41,9 +43,9 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex }: CardModalP
     };
 
     const handleDelete = () => {
+        closeModal();
         const boardCopy: DocumentEntry[] = JSON.parse(JSON.stringify(board));
         boardCopy[columnIndex].content.splice(cardIndex, 1);
-        closeModal();
         dispatch(setBoard(boardCopy));
     };
     // test
@@ -73,7 +75,7 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex }: CardModalP
                         leaveFrom='translate-x-0'
                         leaveTo='translate-x-full'>
                         <Dialog.Panel className='w-full max-w-sm p-4 bg-white text-black rounded relative z-50 h-screen'>
-                            <div className='flex justify-center flex-col'>
+                            <div className='flex flex-col justify-evenly h-full'>
                                 <EditText
                                     value={titleText}
                                     onChange={(e) => setTitleText(e.target.value)}
@@ -82,17 +84,31 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex }: CardModalP
                                         padding: '1.25rem',
                                         fontSize: '1.25rem',
                                         fontWeight: 'bold',
+                                        border: 'none',
                                     }}
                                     onBlur={handleOffClick}
                                     onSave={handleOffClick}
                                 />
-                                <EditTextarea
+
+                                <textarea
                                     value={bodyText}
                                     onChange={(e) => setBodyText(e.target.value)}
-                                    onBlur={handleOffClick}
-                                    onSave={handleOffClick}
+                                    placeholder='Add a Description'
+                                    className='h-1/2 rounded-lg p-2'
                                 />
-                                <button onClick={handleDelete}>DELETE</button>
+                                <div className='text-center'>
+                                    <button>upload image</button>
+                                </div>
+                                <div className='flex justify-evenly'>
+                                    {/* <button onClick={handleDelete}>DELETE</button> */}
+                                    <Button color='danger' onClick={handleDelete}>
+                                        DELETE
+                                    </Button>
+                                    <Button color='secondary' onClick={closeModal}>
+                                        SAVE
+                                    </Button>
+                                    {/* <button onClick={closeModal}>SAVE</button> */}
+                                </div>
                             </div>
                         </Dialog.Panel>
                     </Transition.Child>

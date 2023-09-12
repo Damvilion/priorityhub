@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Board from './components/Board';
 import './globals.css';
 import { Context } from './useContext/Context';
+import { NextUIProvider } from '@nextui-org/react';
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -29,13 +30,15 @@ export default function Home() {
 
     return (
         <Context>
-            <main className='bg-black text-black relative'>
-                <div className='absoultePositioning h-[300px] w-[80%] gradient-02 opacity-80 z-1' />
-                <Navbar />
-                <main className='h-screen relative z-50'>
-                    <Board />
+            <NextUIProvider>
+                <main className='bg-black text-black relative'>
+                    <div className='absoultePositioning h-[300px] w-[80%] gradient-02 opacity-80 z-1' />
+                    <Navbar />
+                    <main className='h-screen relative z-50'>
+                        <Board />
+                    </main>
                 </main>
-            </main>
+            </NextUIProvider>
         </Context>
     );
 }
