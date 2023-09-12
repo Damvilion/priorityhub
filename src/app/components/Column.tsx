@@ -53,7 +53,7 @@ const Column = ({ index, content, draggableId, name }: any) => {
                             <div className='flex justify-between items-center gap-1 group transition-all ease-in-out'>
                                 <EditText
                                     value={columnName}
-                                    className='text-white'
+                                    className=''
                                     style={{ width: '100%', background: 'none', color: 'white' }}
                                     onChange={(e) => setColumnName(e.currentTarget.value)}
                                     onSave={handleColumnNameChange}

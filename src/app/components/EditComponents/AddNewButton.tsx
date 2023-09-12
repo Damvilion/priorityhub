@@ -65,16 +65,6 @@ const AddNewButton = ({ index }: AddNewButtonProps) => {
                         <button onClick={addItemToBoard} className='text-white bg-purple-500 rounded-full py-2 px-4 mt-1'>
                             Add
                         </button>
-                        {/* <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth={1.5}
-                            stroke='currentColor'
-                            className='w-8 h-8 text-white bg-red-700 rounded-full cursor-pointer p-1'
-                            onClick={handleCancle}>
-                            <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
-                        </svg> */}
                     </div>
                 )}
             </div>

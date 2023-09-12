@@ -8,7 +8,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 import { useDispatch } from 'react-redux';
 import { setBoard } from '../redux/boardState';
-import DraggableColumnComponent from './draggables/DraggableColumnComponent';
+import AddNewColumn from './ModalComponents/AddNewColumn';
 
 function Board(): React.JSX.Element {
     const { currentUser } = useSelector((state: RootState) => state.user);
@@ -118,7 +118,7 @@ function Board(): React.JSX.Element {
     return (
         <div className='flex flex-col p-1'>
             <div className='flex justify-center'>
-                <DraggableColumnComponent />
+                <AddNewColumn />
             </div>
             <div className='flex overflow-x-auto z-50 items-center relative'>
                 <DragDropContext onDragEnd={handleDrag}>
