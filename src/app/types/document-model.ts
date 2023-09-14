@@ -8,5 +8,5 @@ type Content = {
     uuid: string;
     Title: string;
     Body: string;
-    imgUrl?: string | null;
+    imgUrl: string;
 };
