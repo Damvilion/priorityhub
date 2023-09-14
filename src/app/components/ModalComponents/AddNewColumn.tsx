@@ -12,7 +12,12 @@ const AddNewColumn = () => {
     const [input, setInput] = useState('');
     const handleDelete = () => {};
 
-    const addEntry = (e: React.FormEvent) => {
+    const addEntry = (e: any) => {
+        if (!input) return;
+
+        if (e.key !== 'Enter') {
+            return;
+        }
         const every = [...board];
         const newBlock: DocumentEntry = {
             uuid: uuid(),
@@ -46,6 +51,7 @@ const AddNewColumn = () => {
                                     <input
                                         value={input}
                                         onChange={(e) => setInput(e.target.value)}
+                                        onKeyDown={addEntry}
                                         type='text'
                                         className='outline-none text-white bg-none w-full bg-slate-500'
                                     />

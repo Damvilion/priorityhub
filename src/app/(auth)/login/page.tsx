@@ -7,17 +7,19 @@ import { RootState } from '@/app/redux/store';
 import { useRouter } from 'next/navigation';
 import { setUser } from '@/app/redux/user';
 import Link from 'next/link';
+import { Button } from '@nextui-org/react';
 
 const Login = () => {
     const router = useRouter();
     const { currentUser } = useSelector((state: RootState) => state.user);
+    const [loading, setLoading] = useState(false);
     const [loginEmail, setLoginUpEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        setLoading(true);
         try {
             const res = await signInWithEmailAndPassword(auth, loginEmail, password);
             const { displayName, email, photoURL, uid } = res.user;
@@ -25,9 +27,11 @@ const Login = () => {
             dispatch(setUser(userdata));
             setPassword('');
             setLoginUpEmail('');
+            setLoading(false);
             router.push('/');
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     };
 
@@ -52,9 +56,12 @@ const Login = () => {
                         }}
                         className='text-black p-2'></input>
                     <p>forgot your password?</p>
-                    <button type='submit' className='bg-gradient-to-r from-blue-500 to-purple-400 p-2 rounded-sm'>
+                    {/* <button type='submit' className='bg-gradient-to-r from-blue-500 to-purple-400 p-2 rounded-sm'>
                         login
-                    </button>
+                    </button> */}
+                    <Button color='secondary' type='submit' isLoading={loading}>
+                        Login
+                    </Button>
                     <div className='mx-auto text-xs'>
                         New?{' '}
                         <Link className='text-blue-400' href='/register'>

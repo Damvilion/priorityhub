@@ -1,16 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { ChangeEvent, Fragment, useContext, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
+
+import { useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { EditText, EditTextarea } from 'react-edit-text';
+import { EditText } from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/redux/store';
 import { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import { setBoard } from '@/app/redux/boardState';
-import { Button } from '@nextui-org/react';
+import { Button, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../../firebase-config';
+import { uuid } from 'uuidv4';
 
 interface CardModalProps {
     title: string;
@@ -40,6 +43,9 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
     const [bodyText, setBodyText] = useState(body);
     const [imgUrlText, setImgUrlText] = useState(imgUrl);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [signUpModal, setSignUpModal] = useState(false);
+
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const [loading, setLoading] = useState(false);
 
@@ -50,6 +56,7 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
         boardCopy[columnIndex].content[cardIndex].imgUrl = imgUrlText;
 
         dispatch(setBoard(boardCopy));
+        console.log(board);
     };
 
     const handleDelete = () => {
@@ -64,31 +71,30 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
     };
 
     const handleUpload = async (e: React.FormEvent) => {
-        setLoading(true);
         e.preventDefault();
+        if (!currentUser) {
+            setSignUpModal(true);
+            return;
+        }
+        if (!selectedFile) return;
+        setLoading(true);
         if (selectedFile && currentUser) {
             try {
-                const storageRef = ref(storage, currentUser.uid);
+                const storageRef = ref(storage, uuid());
                 const uploadTask = uploadBytes(storageRef, selectedFile);
 
-                uploadTask
-                    .then((snapshot) => {
-                        getDownloadURL(snapshot.ref).then(async (downnloadUrl) => {
-                            setImgUrlText(downnloadUrl);
-                        });
-                    })
-                    .then(() => {
+                uploadTask.then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then(async (downnloadUrl) => {
+                        setImgUrlText(downnloadUrl);
                         setLoading(false);
                     });
-
-                handleOffClick();
+                });
             } catch (err) {
-                console.log(err);
+                setLoading(false);
             }
         } else {
             console.log('no File');
         }
-        setLoading(false);
     };
 
     return (
@@ -102,8 +108,41 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
                         <img alt='picture' className='w-full object-fill' src={`${imgUrl}`}></img>
                     </div>
                 )}
-                <div className='p-2 my-2'> {title}</div>
+                <div className='p-2 my-2'>{title}</div>
             </div>
+
+            {/* <div>
+                {isOpen && (
+                    <Modal
+                        backdrop='opaque'
+                        isOpen={isOpen}
+                        // onOpenChange={setSignUpModal}
+                        classNames={{
+                            backdrop: 'bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20',
+                        }}>
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <ModalHeader className='flex flex-col gap-1 text-black text-center bg-purple-400'>
+                                        Login to add Images
+                                    </ModalHeader>
+                                    <ModalBody className='bg-purple-300'>
+                                        <div className='flex justify-between p-1'>
+                                            <Button color='secondary' className='text-white' onPress={onClose}>
+                                                login
+                                            </Button>
+                                            <Button color='danger' className='text-white' onPress={onClose}>
+                                                Sign up
+                                            </Button>
+                                        </div>
+                                    </ModalBody>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                )}
+            </div> */}
+
             <Transition
                 appear
                 show={openCard}
@@ -144,28 +183,37 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
                                 <div className='text-center'>
                                     <div className='flex items-center gap-2'>
                                         <p>Image Url</p>
-                                        <input
-                                            className='text-black border border-solid border-black p-4'
-                                            value={imgUrlText}
-                                            onChange={(e) => setImgUrlText(e.target.value)}
-                                            type='text'
-                                        />
+                                        <input className='text-black border border-solid border-black p-4' value={imgUrlText} readOnly type='text' />
+                                        {imgUrlText && (
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                fill='none'
+                                                viewBox='0 0 24 24'
+                                                strokeWidth={1.5}
+                                                stroke='currentColor'
+                                                className='w-6 h-6 text-white  bg-red-700 rounded-full p-1 cursor-pointer'
+                                                onClick={() => {
+                                                    setImgUrlText('');
+                                                    setSelectedFile(null);
+                                                }}>
+                                                <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
+                                            </svg>
+                                        )}
                                     </div>
-                                    <form
-                                        onSubmit={(e) => {
-                                            handleUpload(e);
-                                        }}>
+
+                                    <form onSubmit={handleUpload}>
                                         <input type='file' id='file' className='py-3' onChange={handleFileChange}></input>
                                         <Button isLoading={loading} className='m-2' type='submit'>
                                             Upload Image
                                         </Button>
+                                        {signUpModal && <p className='text-red-600 text-sm'>Sign In to Upload Images</p>}
                                     </form>
                                 </div>
                                 <div className='flex justify-evenly'>
                                     <Button color='danger' onClick={handleDelete}>
                                         DELETE
                                     </Button>
-                                    <Button color='secondary' onClick={closeModal}>
+                                    <Button color='success' onClick={closeModal}>
                                         SAVE
                                     </Button>
                                 </div>

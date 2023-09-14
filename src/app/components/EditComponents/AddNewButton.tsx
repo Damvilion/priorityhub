@@ -24,7 +24,7 @@ const AddNewButton = ({ index }: AddNewButtonProps) => {
             uuid: uuid(),
             Title: textValue,
             Body: '',
-            imgUrl: null,
+            imgUrl: '',
         };
 
         boardCopy[index].content.push(newItem);

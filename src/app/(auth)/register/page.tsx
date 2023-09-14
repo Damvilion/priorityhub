@@ -6,13 +6,16 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { doc, setDoc } from 'firebase/firestore';
 import { MockData } from '@/app/lib/mockData/MockData';
+import { Button } from '@nextui-org/react';
 
 const Register = () => {
     const router = useRouter();
     const [signUpEmail, setSignUpEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const handleSubmit: FormEventHandler<HTMLFormElement> = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
 
         try {
             const res = await createUserWithEmailAndPassword(auth, signUpEmail, password);
@@ -21,9 +24,11 @@ const Register = () => {
                 email: signUpEmail,
                 data: MockData,
             });
+            setLoading(false);
             router.push('/login');
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     };
 
@@ -55,9 +60,12 @@ const Register = () => {
                         </Link>
                     </div>
 
-                    <button type='submit' className='bg-gradient-to-r from-blue-500 to-purple-400 p-2 rounded-sm'>
+                    {/* <button type='submit' className='bg-gradient-to-r from-blue-500 to-purple-400 p-2 rounded-sm'>
                         register
-                    </button>
+                    </button> */}
+                    <Button color='secondary' type='submit' isLoading={loading}>
+                        register
+                    </Button>
                 </form>
             </div>
         </main>
