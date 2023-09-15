@@ -60,57 +60,34 @@ function Board(): React.JSX.Element {
 
     const handleDrag = (result: DropResult) => {
         const { destination, source, type } = result;
-        // console.log('SOURCE');
-        // console.log(source);
-        // console.log('Destination');
-        // console.log(destination);
 
         if (!destination) return;
 
-        if (type === 'column' && currentUser) {
-            const boardCopy = [...board];
-            let temp = boardCopy.splice(source.index, 1)[0];
+        const boardCopy = type === 'column' ? [...board] : JSON.parse(JSON.stringify(board));
+
+        if (type === 'column') {
+            const temp = boardCopy.splice(source.index, 1)[0];
             boardCopy.splice(destination.index, 0, temp);
-            dispatch(setBoard(boardCopy));
-        } else if (type === 'column' && !currentUser) {
-            const boardCopy = [...board];
-            let temp = boardCopy.splice(source.index, 1)[0];
-            boardCopy.splice(destination.index, 0, temp);
-            dispatch(setBoard(boardCopy));
+        } else if (type === 'DEFAULT') {
+            let sourceItem: DocumentEntry | null = null;
+            let destinationItem: DocumentEntry | null = null;
+        
+            for (const item of boardCopy) {
+                if (source.droppableId === item.uuid) {
+                    sourceItem = item;
+                }
+                if (destination.droppableId === item.uuid) {
+                    destinationItem = item;
+                }
+            }
+        
+            if (sourceItem && destinationItem) {
+                const newData = sourceItem.content.splice(source.index, 1);
+                destinationItem.content.splice(destination.index, 0, newData[0]);
+            }
         }
 
-        if (type === 'DEFAULT' && !currentUser) {
-            const boardCopy = JSON.parse(JSON.stringify(board));
-            boardCopy.map((item: DocumentEntry) => {
-                if (source.droppableId === item.uuid) {
-                    const newData = item.content.splice(source.index, 1);
-                    boardCopy.map((item: DocumentEntry) => {
-                        if (destination.droppableId === item.uuid) {
-                            item.content.splice(destination.index, 0, newData[0]);
-                        }
-                    });
-                    dispatch(setBoard(boardCopy));
-                } else {
-                    return item;
-                }
-            });
-        } else if (type === 'DEFAULT' && currentUser) {
-            const boardCopy = JSON.parse(JSON.stringify(board));
-            boardCopy.map((item: DocumentEntry) => {
-                if (source.droppableId === item.uuid) {
-                    const newData = item.content.splice(source.index, 1);
-
-                    boardCopy.map((item: DocumentEntry) => {
-                        if (destination.droppableId === item.uuid) {
-                            item.content.splice(destination.index, 0, newData[0]);
-                        }
-                    });
-                    dispatch(setBoard(boardCopy));
-                } else {
-                    return item;
-                }
-            });
-        }
+        dispatch(setBoard(boardCopy));
         updateBoardData();
         updateLocalStorage();
     };

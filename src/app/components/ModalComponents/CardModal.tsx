@@ -183,7 +183,12 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
                                 <div className='text-center'>
                                     <div className='flex items-center gap-2'>
                                         <p>Image Url</p>
-                                        <input className='text-black border border-solid border-black p-4' value={imgUrlText} readOnly type='text' />
+                                        <input
+                                            className='text-black border border-solid border-black p-4'
+                                            value={imgUrlText}
+                                            readOnly
+                                            type='text'
+                                        />
                                         {imgUrlText && (
                                             <svg
                                                 xmlns='http://www.w3.org/2000/svg'
@@ -196,7 +201,11 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
                                                     setImgUrlText('');
                                                     setSelectedFile(null);
                                                 }}>
-                                                <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
+                                                <path
+                                                    strokeLinecap='round'
+                                                    strokeLinejoin='round'
+                                                    d='M6 18L18 6M6 6l12 12'
+                                                />
                                             </svg>
                                         )}
                                     </div>
