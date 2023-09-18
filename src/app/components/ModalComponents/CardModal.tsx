@@ -45,7 +45,7 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
     const [selectedFile, setSelectedFile] = useState(null);
     const [signUpModal, setSignUpModal] = useState(false);
 
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const [loading, setLoading] = useState(false);
 
@@ -56,7 +56,6 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
         boardCopy[columnIndex].content[cardIndex].imgUrl = imgUrlText;
 
         dispatch(setBoard(boardCopy));
-        console.log(board);
     };
 
     const handleDelete = () => {
@@ -92,8 +91,6 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
             } catch (err) {
                 setLoading(false);
             }
-        } else {
-            console.log('no File');
         }
     };
 
@@ -105,43 +102,11 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
             <div onClick={openModal} className='w-full flex flex-col'>
                 {imgUrl && (
                     <div className='flex justify-center h-40 overflow-hidden rounded-t-md'>
-                        <img alt='picture' className='w-full object-fill' src={`${imgUrl}`}></img>
+                        <img alt='picture' className='w-full object-cover' src={`${imgUrl}`}></img>
                     </div>
                 )}
                 <div className='p-2 my-2'>{title}</div>
             </div>
-
-            {/* <div>
-                {isOpen && (
-                    <Modal
-                        backdrop='opaque'
-                        isOpen={isOpen}
-                        // onOpenChange={setSignUpModal}
-                        classNames={{
-                            backdrop: 'bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20',
-                        }}>
-                        <ModalContent>
-                            {(onClose) => (
-                                <>
-                                    <ModalHeader className='flex flex-col gap-1 text-black text-center bg-purple-400'>
-                                        Login to add Images
-                                    </ModalHeader>
-                                    <ModalBody className='bg-purple-300'>
-                                        <div className='flex justify-between p-1'>
-                                            <Button color='secondary' className='text-white' onPress={onClose}>
-                                                login
-                                            </Button>
-                                            <Button color='danger' className='text-white' onPress={onClose}>
-                                                Sign up
-                                            </Button>
-                                        </div>
-                                    </ModalBody>
-                                </>
-                            )}
-                        </ModalContent>
-                    </Modal>
-                )}
-            </div> */}
 
             <Transition
                 appear
@@ -183,12 +148,29 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
                                 <div className='text-center'>
                                     <div className='flex items-center gap-2'>
                                         <p>Image Url</p>
-                                        <input
+                                        {imgUrl ? (
+                                            <a href={`${imgUrl}`} target='_blank' className='cursor-pointer'>
+                                                <input
+                                                    className='text-black border border-solid border-black p-4'
+                                                    value={imgUrlText}
+                                                    readOnly
+                                                    type='text'
+                                                />
+                                            </a>
+                                        ) : (
+                                            <input
+                                                className='text-black border border-solid border-black p-4'
+                                                value={imgUrlText}
+                                                readOnly
+                                                type='text'
+                                            />
+                                        )}
+                                        {/* <input
                                             className='text-black border border-solid border-black p-4'
                                             value={imgUrlText}
                                             readOnly
                                             type='text'
-                                        />
+                                        /> */}
                                         {imgUrlText && (
                                             <svg
                                                 xmlns='http://www.w3.org/2000/svg'
