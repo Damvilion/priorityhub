@@ -15,6 +15,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../../firebase-config';
 import { uuid } from 'uuidv4';
 import Image from 'next/image';
+import ImageLoad from '../imageState/ImageLoad';
 
 interface CardModalProps {
     title: string;
@@ -49,6 +50,7 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
     // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const [loading, setLoading] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleOffClick = () => {
         const boardCopy: DocumentEntry[] = JSON.parse(JSON.stringify(board));
@@ -103,7 +105,7 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
             <div onClick={openModal} className='w-full flex flex-col'>
                 {imgUrl && (
                     <div className='flex justify-center h-40 overflow-hidden rounded-t-md'>
-                        <img alt='picture' className='w-full object-cover' src={imgUrl} />
+                        {/* <img alt='picture' className='w-full object-cover' src={imgUrl} loading='lazy' /> */}
                         {/* <Image
                             alt='image'
                             src={imgUrl}
@@ -112,6 +114,7 @@ const CardModal = ({ title, Snapshot, body, columnIndex, cardIndex, imgUrl }: Ca
                             quality={100}
                             className='w-full object-cover'
                         /> */}
+                        <ImageLoad imgUrl={imgUrl} />
                     </div>
                 )}
                 <div className='p-2 my-2'>{title}</div>
